@@ -2,10 +2,13 @@
 //
 
 #include <iostream>
+#include "ApproximateMaximalSubgraph.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    ApproximateMaximalSubgraph maximalSubgraph;
+    maximalSubgraph.getModularGraph();
+    maximalSubgraph.printModularGraph();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
