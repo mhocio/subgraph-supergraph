@@ -7,8 +7,8 @@
 int main()
 {
     ApproximateMaximalSubgraph maximalSubgraph;
-    maximalSubgraph.getModularGraph();
-    maximalSubgraph.printModularGraph();
+    maximalSubgraph.getMaximalCommonSubgraph();
+    maximalSubgraph.printMaximalCommonSubgraph();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

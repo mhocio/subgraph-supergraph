@@ -10,8 +10,10 @@ public:
 	std::pair<int, int> getComponentIndices(int v);
 	int getModularIndex(std::pair<int, int> v);
 	void printModularGraph();
-	void getMaximalCommonSubgraph();
 	int getMostConnectedVertex(std::unordered_set<int>& s);
+	std::vector<int> getVerticesNotConnected(int v);
+	void getMaximalCommonSubgraph();
+	void printMaximalCommonSubgraph();
 	
 	std::vector<std::vector<int>> graph1;
 	int size1;
