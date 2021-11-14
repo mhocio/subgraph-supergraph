@@ -27,6 +27,27 @@ void ApproximateMinimalSupergraph::getEmbedding() {
 }
 
 void ApproximateMinimalSupergraph::getMinimalCommonSupergraph() {
+	getEmbedding();
 	minimalCommonSupergraph = approx.graph1;
+	int n = approx.graph1.size();
+	// Include all the edges from the computed embedding.
+	for (int i = 0; i < n; ++i) {
+		for (int j = 0; j < n; ++j) {
+			if (embedding[i][j] == 1) {
+				minimalCommonSupergraph[i][j] = 1;
+			}
+		}
+	}
+}
 
+void ApproximateMinimalSupergraph::printMinimalCommonSupergraph() {
+	int n = minimalCommonSupergraph.size();
+	std::cout << n << "\n";
+	for (int i = 0; i < n; ++i) {
+		for (int j = 0; j < n; ++j) {
+			std::cout << minimalCommonSupergraph[i][j] << " ";
+		}
+		std::cout << "\n";
+	}
+	std::cout << "\n";
 }

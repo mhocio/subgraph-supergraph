@@ -9,8 +9,11 @@ int main()
 {
     ApproximateMaximalSubgraph maximalSubgraph;
     maximalSubgraph.getMaximalCommonSubgraph();
+    maximalSubgraph.printMaximalCommonSubgraph();
     ApproximateMinimalSupergraph minimalSupergraph(maximalSubgraph);
-    minimalSupergraph.getEmbedding();
+    minimalSupergraph.getMinimalCommonSupergraph();
+    minimalSupergraph.printMinimalCommonSupergraph();
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

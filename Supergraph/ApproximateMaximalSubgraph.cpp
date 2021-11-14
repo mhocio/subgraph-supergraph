@@ -139,4 +139,5 @@ void ApproximateMaximalSubgraph::printMaximalCommonSubgraph() {
 		}
 		std::cout << "\n";
 	}
+	std::cout << "\n";
 }
