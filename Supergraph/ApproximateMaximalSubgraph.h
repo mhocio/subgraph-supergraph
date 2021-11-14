@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <unordered_set>
+#include <unordered_map>
 
 class ApproximateMaximalSubgraph {
 public:
@@ -16,9 +17,10 @@ public:
 	void printMaximalCommonSubgraph();
 	
 	std::vector<std::vector<int>> graph1;
-	int size1;
 	std::vector<std::vector<int>> graph2;
-	int size2;
 	std::vector<std::vector<int>> modularGraph;
+	std::unordered_set<int> maximalCommonSubgraphVerticesGraph1;
+	std::unordered_set<int> maximalCommonSubgraphVerticesGraph2;
+	std::unordered_map<int, int> verticesFromGraph2ToGraph1;
 	std::vector<std::vector<int>> maximalCommonSubgraph;
 };

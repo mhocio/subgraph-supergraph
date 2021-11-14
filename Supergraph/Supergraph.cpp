@@ -3,12 +3,14 @@
 
 #include <iostream>
 #include "ApproximateMaximalSubgraph.h"
+#include "ApproximateMinimalSupergraph.h"
 
 int main()
 {
     ApproximateMaximalSubgraph maximalSubgraph;
     maximalSubgraph.getMaximalCommonSubgraph();
-    maximalSubgraph.printMaximalCommonSubgraph();
+    ApproximateMinimalSupergraph minimalSupergraph(maximalSubgraph);
+    minimalSupergraph.getEmbedding();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
