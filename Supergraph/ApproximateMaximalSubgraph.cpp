@@ -1,8 +1,18 @@
 #include "ApproximateMaximalSubgraph.h"
+#include "GraphReader.h"
 
 ApproximateMaximalSubgraph::ApproximateMaximalSubgraph() {
-	graph1 = { {0, 1, 1, 0}, {1, 0, 0, 1}, {1, 0, 0, 1}, {0, 1, 1, 0} };
-	graph2 = { {0, 1, 1}, {1, 0, 1}, {1, 1, 0} };
+	GraphReader reader;
+	reader.readInput("input.txt");
+	// making sure the graph with most number of vertices is assigned first
+	if (graph1.size() > graph2.size()) {
+		graph1 = reader.graph1;
+		graph2 = reader.graph2;
+	}
+	else {
+		graph2 = reader.graph1;
+		graph1 = reader.graph2;
+	}
 	modularGraph = std::vector<std::vector<int>>(graph1.size() * graph2.size(), std::vector<int>(graph1.size() * graph2.size(), 0));
 }
 
