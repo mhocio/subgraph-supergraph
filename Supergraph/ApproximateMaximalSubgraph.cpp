@@ -1,8 +1,10 @@
 #include "ApproximateMaximalSubgraph.h"
+#include "GraphReader.h"
 
 ApproximateMaximalSubgraph::ApproximateMaximalSubgraph() {
-	graph1 = { {0, 1, 1, 0}, {1, 0, 0, 1}, {1, 0, 0, 1}, {0, 1, 1, 0} };
-	graph2 = { {0, 1, 1}, {1, 0, 1}, {1, 1, 0} };
+	GraphReader reader;
+	graph1 = reader.createGraphFromFile("graph1.txt");
+	graph2 = reader.createGraphFromFile("graph2.txt");
 	modularGraph = std::vector<std::vector<int>>(graph1.size() * graph2.size(), std::vector<int>(graph1.size() * graph2.size(), 0));
 }
 

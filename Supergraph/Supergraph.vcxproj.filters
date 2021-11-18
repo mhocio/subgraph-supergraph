@@ -24,6 +24,12 @@
     <ClCompile Include="ApproximateMinimalSupergraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ExactMaximalSubgraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApproximateMaximalSubgraph.h">
@@ -31,6 +37,12 @@
     </ClInclude>
     <ClInclude Include="ApproximateMinimalSupergraph.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExactMaximalSubgraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphReader.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
