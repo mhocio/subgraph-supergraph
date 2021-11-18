@@ -3,37 +3,42 @@
 #include <string>
 #include <fstream>
 
-GraphReader::GraphReader() {
+GraphReader::GraphReader() {}
 
-}
-
-std::vector<std::vector<int> > GraphReader::createGraphFromFile(const char* filename) {
+int GraphReader::readInput(const char* filename) {
 	std::ifstream file(filename);
-	std::vector<std::vector<int> > matrix;
-	std::vector<int> row;
 	int vertices;
 
 	if (file.is_open()) {
 		std::string line;
-		std::getline(file, line);
-		// not used at the moment
-		vertices = stoi(line);
 
-		while (std::getline(file, line)) {
-			std::vector<int> row;
+		for (int i = 0; i < 2; ++i) {
+			std::vector<std::vector<int> > matrix;
+			// not used at the moment
+			std::getline(file, line);
+			vertices = stoi(line);
 
-			for (char& c : line) {
-				if (c != ' ') {
-					row.push_back(atoi(&c));
+			for (int j = 0; j < vertices; j++) {
+				std::vector<int> row;
+				std::getline(file, line);
+				for (char& c : line) {
+					if (c != ' ') {
+						row.push_back(atoi(&c));
+					}
 				}
-			}
 
-			matrix.push_back(row);
+				matrix.push_back(row);
+
+			}
+			if (i == 0)
+				graph1 = matrix;
+			else 
+				graph2 = matrix;
 		}
 		
 		file.close();
 
-	return matrix;
+	return 0;
 
 	}
 

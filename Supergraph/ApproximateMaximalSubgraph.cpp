@@ -3,8 +3,16 @@
 
 ApproximateMaximalSubgraph::ApproximateMaximalSubgraph() {
 	GraphReader reader;
-	graph1 = reader.createGraphFromFile("graph1.txt");
-	graph2 = reader.createGraphFromFile("graph2.txt");
+	reader.readInput("input.txt");
+	// making sure the graph with most number of vertices is assigned first
+	if (graph1.size() > graph2.size()) {
+		graph1 = reader.graph1;
+		graph2 = reader.graph2;
+	}
+	else {
+		graph2 = reader.graph1;
+		graph1 = reader.graph2;
+	}
 	modularGraph = std::vector<std::vector<int>>(graph1.size() * graph2.size(), std::vector<int>(graph1.size() * graph2.size(), 0));
 }
 

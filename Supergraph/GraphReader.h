@@ -6,9 +6,9 @@ class GraphReader
 public:
 
 	GraphReader();
-	std::vector<std::vector<int> > createGraphFromFile(const char* filename);
+	int readInput(const char* filename);
+	
 
-	//std::ifstream file;
-	//std::string line;
+	std::vector<std::vector<int> > graph1, graph2;
 };
 
