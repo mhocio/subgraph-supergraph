@@ -10,22 +10,31 @@ GraphReader::GraphReader() {
 std::vector<std::vector<int> > GraphReader::createGraphFromFile(const char* filename) {
 	std::ifstream file(filename);
 	std::vector<std::vector<int> > matrix;
-	int a, b;
+	std::vector<int> row;
 	int vertices;
 
 	if (file.is_open()) {
 		std::string line;
 		std::getline(file, line);
+		// not used at the moment
 		vertices = stoi(line);
 
-		std::vector<std::vector<int>> matrix(vertices, std::vector<int>(vertices));  // initializing to zero
-		while (file >> a >> b) {
-			matrix[a][b] = 1;
-			matrix[b][a] = 1;
+		while (std::getline(file, line)) {
+			std::vector<int> row;
 
+			for (char& c : line) {
+				if (c != ' ') {
+					row.push_back(atoi(&c));
+				}
+			}
+
+			matrix.push_back(row);
 		}
+		
 		file.close();
+
 	return matrix;
+
 	}
 
 }
