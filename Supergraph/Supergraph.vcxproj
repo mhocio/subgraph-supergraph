@@ -139,7 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ApproximateMaximalSubgraph.cpp" />
+    <ClCompile Include="ApproximateMinimalSupergraph.cpp" />
     <ClCompile Include="Supergraph.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ApproximateMaximalSubgraph.h" />
+    <ClInclude Include="ApproximateMinimalSupergraph.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,10 +2,18 @@
 //
 
 #include <iostream>
+#include "ApproximateMaximalSubgraph.h"
+#include "ApproximateMinimalSupergraph.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    ApproximateMaximalSubgraph maximalSubgraph;
+    maximalSubgraph.getMaximalCommonSubgraph();
+    maximalSubgraph.printMaximalCommonSubgraph();
+    ApproximateMinimalSupergraph minimalSupergraph(maximalSubgraph);
+    minimalSupergraph.getMinimalCommonSupergraph();
+    minimalSupergraph.printMinimalCommonSupergraph();
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
