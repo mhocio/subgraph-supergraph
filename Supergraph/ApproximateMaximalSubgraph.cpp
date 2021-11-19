@@ -16,6 +16,13 @@ ApproximateMaximalSubgraph::ApproximateMaximalSubgraph() {
 	modularGraph = std::vector<std::vector<int>>(graph1.size() * graph2.size(), std::vector<int>(graph1.size() * graph2.size(), 0));
 }
 
+ApproximateMaximalSubgraph::ApproximateMaximalSubgraph(std::vector<std::vector<int>> g1, std::vector<std::vector<int>> g2)
+{
+	graph1 = g1;
+	graph2 = g2;
+	modularGraph = std::vector<std::vector<int>>(graph1.size() * graph2.size(), std::vector<int>(graph1.size() * graph2.size(), 0));
+}
+
 void ApproximateMaximalSubgraph::getModularGraph() {
 	for (int i = 0; i < graph1.size() * graph2.size(); ++i) {
 		for (int j = 0; j < graph1.size() * graph2.size(); ++j) {

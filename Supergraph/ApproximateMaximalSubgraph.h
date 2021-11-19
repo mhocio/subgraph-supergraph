@@ -7,6 +7,7 @@
 class ApproximateMaximalSubgraph {
 public:
 	ApproximateMaximalSubgraph();
+	ApproximateMaximalSubgraph(std::vector<std::vector<int>>, std::vector<std::vector<int>>);
 	void getModularGraph();
 	std::pair<int, int> getComponentIndices(int v);
 	int getModularIndex(std::pair<int, int> v);

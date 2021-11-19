@@ -5,6 +5,7 @@
 
 class ApproximateMinimalSupergraph {
 public:
+	ApproximateMinimalSupergraph();
 	ApproximateMinimalSupergraph(ApproximateMaximalSubgraph _approx);
 	void getEmbedding();
 	void getMinimalCommonSupergraph();

@@ -8,6 +8,7 @@ class ExactSubgraph
 {
 public:
 	ExactSubgraph();
+	ExactSubgraph(std::vector<std::vector<int>>, std::vector<std::vector<int>>);
 	void generateMaximalCommonSubgraph();
 	std::vector<std::pair<std::vector<int>, std::vector<int> > > getPermutationsOfBiggerGraph();
 	std::vector<std::vector<int>> generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> >);
