@@ -33,6 +33,8 @@ public:
 	std::vector<std::vector<int>> approximateMaximalSubgraph;
 	std::vector<std::vector<int>> approximateMinimalSupergraph;
 
+	bool compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2);
+
 private:
 	bool approximateComputed;
 	bool exactComputed;

@@ -56,7 +56,7 @@ void twoGraphs::printSolution()
 {
 	if (approximateComputed) {
 		std::cout << "Approximate algorithm computed\n";
-		std::cout << "approximateMinimalSupergraph\n";
+		std::cout << "approximateMaximalSubgraph\n";
 		printGraph(approximateMaximalSubgraph);
 		std::cout << "approximateMinimalSupergraph\n";
 		printGraph(approximateMinimalSupergraph);
@@ -69,6 +69,46 @@ void twoGraphs::printSolution()
 		std::cout << "exactMaximalSubgraph\n";
 		printGraph(exactMaximalSubgraph);
 	}
+
+	if (exactComputed && approximateComputed) {
+		if (compareGraphs(exactAlgorithm.minimalSupergraph, approximateMinimalSupergraphAlgorithm.minimalCommonSupergraph)) {
+			std::cout << "Supergraphs of two algorithms are same!\n";
+		}
+		else {
+			std::cout << "Supergraphs of two algorithms are NOT same...\n";
+		}
+
+		if (compareGraphs(exactAlgorithm.maximalCommonSubgraph, approximateMaximalSubgraphAlgorithm.maximalCommonSubgraph)) {
+			std::cout << "Common subgraphs of two algorithms are same!\n";
+		}
+		else {
+			std::cout << "Common subgraphs of two algorithms are NOT same...\n";
+		}
+	}
+}
+
+bool twoGraphs::compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2) {
+	auto permutationsOfExactGraph = exactAlgorithm.getPermutationsOfSize(G1.size());
+
+	bool correctMappingFound = false;
+
+	for (auto permOfExactGraph : permutationsOfExactGraph) {
+		auto reorderedGraph = exactAlgorithm.generateReorderedGraph(permOfExactGraph, G1);
+		correctMappingFound = true;
+
+		for (int i = 0; i < G1.size(); i++) {
+			for (int j = 0; j < G1[i].size(); j++) {
+				if (reorderedGraph[i][j] != G2[i][j]) {
+					correctMappingFound = false;
+				}
+			}
+		}
+		if (correctMappingFound) {
+			return correctMappingFound;
+		}
+	}
+
+	return false;
 }
 
 void twoGraphs::computeExactSolution()
