@@ -8,8 +8,7 @@ ApproximateMaximalSubgraph::ApproximateMaximalSubgraph() {
 	if (reader.graph1.size() > reader.graph2.size()) {
 		graph1 = reader.graph1;
 		graph2 = reader.graph2;
-	}
-	else {
+	} else {
 		graph2 = reader.graph1;
 		graph1 = reader.graph2;
 	}
