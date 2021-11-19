@@ -21,7 +21,6 @@ twoGraphs::twoGraphs(std::string inputFile)
 		graph1 = reader.graph2;
 	}
 	approximateMaximalSubgraphAlgorithm = ApproximateMaximalSubgraph(graph1, graph2);
-	approximateMinimalSupergraphAlgorithm = ApproximateMinimalSupergraph(approximateMaximalSubgraphAlgorithm);
 	exactAlgorithm = ExactSubgraph(graph1, graph2);
 
 	approximateComputed = false;
@@ -76,6 +75,7 @@ void twoGraphs::computeExactSolution()
 {
 	exactAlgorithm.generateMaximalCommonSubgraph();
 	exactMaximalSubgraph = exactAlgorithm.maximalCommonSubgraph;
+	exactMinimalSupergraph = exactAlgorithm.minimalSupergraph;
 
 	exactComputed = true;
 }
@@ -83,9 +83,10 @@ void twoGraphs::computeExactSolution()
 void twoGraphs::computeApproximateSolution()
 {
 	approximateMaximalSubgraphAlgorithm.getMaximalCommonSubgraph();
-	//approximateMaximalSubgraphAlgorithm.printMaximalCommonSubgraph();
 	approximateMaximalSubgraph = approximateMaximalSubgraphAlgorithm.maximalCommonSubgraph;
 
+	// this can be used only after getMaximalCommonSubgraph() method was called
+	approximateMinimalSupergraphAlgorithm = ApproximateMinimalSupergraph(approximateMaximalSubgraphAlgorithm);
 	approximateMinimalSupergraphAlgorithm.getMinimalCommonSupergraph();
 	approximateMinimalSupergraph = approximateMinimalSupergraphAlgorithm.minimalCommonSupergraph;
 

@@ -14,11 +14,12 @@ int main()
     maximalSubgraph.printMaximalCommonSubgraph();
     ApproximateMinimalSupergraph minimalSupergraph(maximalSubgraph);
     minimalSupergraph.getMinimalCommonSupergraph();
-    minimalSupergraph.printMinimalCommonSupergraph();*/
+    minimalSupergraph.printMinimalCommonSupergraph();
+    std::cout << minimalSupergraph.approx.graph1.size() << "\n";*/
 
-    std::cout << "twoGraphs solution\n";
+    //std::cout << "-------------twoGraphs solution-----------\n";
 
-    twoGraphs solution = twoGraphs("input22.txt");
+    twoGraphs solution = twoGraphs("input.txt");
     solution.computeApproximateSolution();
     solution.computeExactSolution();
     solution.printSolution();

@@ -137,6 +137,39 @@ int ExactSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> bigG, std:
 	return count;
 }
 
+int ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
+	int count = 0;
+	for (int i = 0; i < smallG.size(); i++) {
+		for (int j = 0; j < smallG.size(); j++) {
+			if (smallG[i][j] != bigG[i][j]) {
+				if (smallG[i][j] == 1) {
+					count++;
+				}
+				else {
+					return -1;
+				}
+			}
+		}
+	}
+
+	return count;
+}
+
+std::vector<std::vector<int>> ExactSubgraph::generateSuperGraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
+	std::vector<std::vector<int>> ret = bigG;
+
+	for (int i = 0; i < smallG.size(); i++) {
+		for (int j = 0; j < smallG.size(); j++) {
+			if (smallG[i][j] != bigG[i][j]) {
+				if (smallG[i][j] == 1) {
+					ret[i][j] = 1;
+				}
+			}
+		}
+	}
+	return ret;
+}
+
 void printGraph(std::vector<std::vector<int>> G) {
 	for (int i = 0; i < G.size(); i++) {
 		for (int j = 0; j < G[i].size(); j++) {
@@ -164,7 +197,8 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 	//printGraph(graph1);
 	//printGraph(graph2);
 
-	int maxNumberOfEdges = 0;
+	int maxNumberOfEdges = 0;  // for maximal subgraph
+	int minNumberOfEdgesForSupergraph = std::numeric_limits<int>::max();;  // for minimal supergrapf
 
 	std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
 	auto permutationsOfBiggerGraph = getPermutationsOfBiggerGraph();
@@ -180,6 +214,16 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 			if (numOfEdges > maxNumberOfEdges) {
 				maxNumberOfEdges = numOfEdges;
 				maximalCommonSubgraph = smallGraphCandidate;
+			}
+
+			// compute minimal Supergrapf
+			if (smallGraphCandidate.size() == graph2.size()) {
+				int numberOfEdgesForSupergraph = compareOverlayGraphsForSupergraph(reorderedGraph, smallGraphCandidate);
+
+				if (numberOfEdgesForSupergraph >= 0 && numberOfEdgesForSupergraph < minNumberOfEdgesForSupergraph) {
+					minNumberOfEdgesForSupergraph = numberOfEdgesForSupergraph;
+					minimalSupergraph = generateSuperGraph(reorderedGraph, smallGraphCandidate);
+				}
 			}
 		}
 	}
