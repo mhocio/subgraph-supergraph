@@ -4,10 +4,10 @@
 #include <algorithm>
 #include "GraphReader.h"
 
-class ExactMaximalSubgraph
+class ExactSubgraph
 {
 public:
-	ExactMaximalSubgraph();
+	ExactSubgraph();
 	void generateMaximalCommonSubgraph();
 	std::vector<std::pair<std::vector<int>, std::vector<int> > > getPermutationsOfBiggerGraph();
 	std::vector<std::vector<int>> generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> >);
