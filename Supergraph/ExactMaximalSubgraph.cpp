@@ -52,13 +52,13 @@ std::vector<std::vector<int>> getPerms(int size) {
 	return ret;
 }
 
-std::vector<std::pair<std::vector<int>, std::vector<int> > > ExactSubgraph::getPermutationsOfBiggerGraph() {
+std::vector<std::pair<std::vector<int>, std::vector<int> > > ExactSubgraph::getPermutationsOfSize(int size) {
 	// (cols, rows)
 	std::vector<std::pair<std::vector<int>, std::vector<int> > > ret;
 	
 	std::vector<int> numbers;
 	std::vector<std::vector<int>> perms;
-	for (int i = 0; i < graph1.size(); i++) {
+	for (int i = 0; i < size; i++) {
 		numbers.push_back(i);
 	}
 
@@ -77,20 +77,20 @@ std::vector<std::pair<std::vector<int>, std::vector<int> > > ExactSubgraph::getP
 	return ret;
 }
 
-std::vector<std::vector<int>> ExactSubgraph::generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> > ordering) {
+std::vector<std::vector<int>> ExactSubgraph::generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> > ordering, std::vector<std::vector<int>> G) {
 	// of the First graph
 	// reorder columns
 	std::vector<std::vector<int>> reorderedColumns;
-	for (int i = 0; i < graph1.size(); i++) {
+	for (int i = 0; i < G.size(); i++) {
 		std::vector<int> row;
 		for (int j = 0; j < ordering.first.size(); j++) {
-			row.push_back(graph1[i][ordering.first[j]]);
+			row.push_back(G[i][ordering.first[j]]);
 		}
 		reorderedColumns.push_back(row);
 	}
 	// reorder rows
 	std::vector<std::vector<int>> reorderedMatrix;
-	for (int i = 0; i < graph1.size(); i++) {
+	for (int i = 0; i < G.size(); i++) {
 		std::vector<int> row;
 		for (int j = 0; j < ordering.second.size(); j++) {
 			row.push_back(reorderedColumns[ordering.second[i]][j]);
@@ -201,10 +201,10 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 	int minNumberOfEdgesForSupergraph = std::numeric_limits<int>::max();;  // for minimal supergrapf
 
 	std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
-	auto permutationsOfBiggerGraph = getPermutationsOfBiggerGraph();
+	auto permutationsOfBiggerGraph = getPermutationsOfSize(graph1.size());
 
 	for (auto permOfBiggerGraph : permutationsOfBiggerGraph) {
-		auto reorderedGraph = generateReorderedGraph(permOfBiggerGraph);
+		auto reorderedGraph = generateReorderedGraph(permOfBiggerGraph, graph1);
 
 		//std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
 		for (std::vector<int> verticesOfSmallerGraph : setOfAllVerticesCandidates) {
