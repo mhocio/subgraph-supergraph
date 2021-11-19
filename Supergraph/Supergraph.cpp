@@ -2,12 +2,16 @@
 //
 
 #include <iostream>
+#include <filesystem>
+#include <windows.h>
+#include <string>
+#include <direct.h>
 #include "ApproximateMaximalSubgraph.h"
 #include "ApproximateMinimalSupergraph.h"
 #include "ExactMaximalSubgraph.h"
 #include "twoGraphs.h"
 
-int main()
+int main(int argc, char* argv[])
 {
     /*ApproximateMaximalSubgraph maximalSubgraph;
     maximalSubgraph.getMaximalCommonSubgraph();
@@ -19,7 +23,11 @@ int main()
 
     //std::cout << "-------------twoGraphs solution-----------\n";
 
-    twoGraphs solution = twoGraphs("input.txt");
+    char buff[256];
+    _getcwd(buff, 256);
+    std::string current_working_dir(buff);  // not used yet
+
+    twoGraphs solution = twoGraphs("graphs/input2.txt");
     solution.computeApproximateSolution();
     solution.computeExactSolution();
     solution.printSolution();
