@@ -15,7 +15,7 @@ int main()
     minimalSupergraph.getMinimalCommonSupergraph();
     minimalSupergraph.printMinimalCommonSupergraph();
 
-    ExactMaximalSubgraph exact;
+    ExactSubgraph exact;
     exact.generateMaximalCommonSubgraph();
 
 }

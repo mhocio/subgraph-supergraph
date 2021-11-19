@@ -1,6 +1,6 @@
 #include "ExactMaximalSubgraph.h"
 
-ExactMaximalSubgraph::ExactMaximalSubgraph() {
+ExactSubgraph::ExactSubgraph() {
 	GraphReader reader;
 	reader.readInput("input2.txt");
 	// making sure the graph with most number of vertices is assigned first
@@ -14,7 +14,7 @@ ExactMaximalSubgraph::ExactMaximalSubgraph() {
 	}
 }
 
-int ExactMaximalSubgraph::_count = 0;
+int ExactSubgraph::_count = 0;
 
 // https://stackoverflow.com/questions/12991758/creating-all-possible-k-combinations-of-n-items-in-c/28698654
 std::vector<std::vector<int>> comb(int N, int K) {
@@ -46,7 +46,7 @@ std::vector<std::vector<int>> getPerms(int size) {
 	return ret;
 }
 
-std::vector<std::pair<std::vector<int>, std::vector<int> > > ExactMaximalSubgraph::getPermutationsOfBiggerGraph() {
+std::vector<std::pair<std::vector<int>, std::vector<int> > > ExactSubgraph::getPermutationsOfBiggerGraph() {
 	// (cols, rows)
 	std::vector<std::pair<std::vector<int>, std::vector<int> > > ret;
 	
@@ -71,7 +71,7 @@ std::vector<std::pair<std::vector<int>, std::vector<int> > > ExactMaximalSubgrap
 	return ret;
 }
 
-std::vector<std::vector<int>> ExactMaximalSubgraph::generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> > ordering) {
+std::vector<std::vector<int>> ExactSubgraph::generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> > ordering) {
 	// of the First graph
 	// reorder columns
 	std::vector<std::vector<int>> reorderedColumns;
@@ -113,7 +113,7 @@ std::vector<std::vector<int>> generateCandidate(std::vector<std::vector<int>> sm
 	return ret;
 }
 
-int ExactMaximalSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
+int ExactSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
 	int count = 0;
 	// return -1 if they do NOT overlap
 	for (int i = 0; i < smallG.size(); i++) {
@@ -128,10 +128,6 @@ int ExactMaximalSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> big
 		}
 	}
 
-	/*if (count == 6) {
-		std::cout << ":(\n";
-	}*/
-
 	return count;
 }
 
@@ -144,7 +140,7 @@ void printGraph(std::vector<std::vector<int>> G) {
 	}
 }
 
-void ExactMaximalSubgraph::generateMaximalCommonSubgraph() {
+void ExactSubgraph::generateMaximalCommonSubgraph() {
 	// assume 1st graph is bigger or same size
 	//std::vector<std::vector<int>> maximalCommonSubgraph;
 
