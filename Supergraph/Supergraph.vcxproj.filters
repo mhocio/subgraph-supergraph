@@ -30,6 +30,9 @@
     <ClCompile Include="GraphReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="twoGraphs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApproximateMaximalSubgraph.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GraphReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="twoGraphs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

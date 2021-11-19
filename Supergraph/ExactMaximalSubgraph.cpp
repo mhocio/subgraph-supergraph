@@ -14,6 +14,12 @@ ExactSubgraph::ExactSubgraph() {
 	}
 }
 
+ExactSubgraph::ExactSubgraph(std::vector<std::vector<int>> g1, std::vector<std::vector<int>> g2)
+{
+	graph1 = g1;
+	graph2 = g2;
+}
+
 int ExactSubgraph::_count = 0;
 
 // https://stackoverflow.com/questions/12991758/creating-all-possible-k-combinations-of-n-items-in-c/28698654
@@ -155,11 +161,10 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 		std::cout << "\n";
 	}*/
 
-	printGraph(graph1);
-	printGraph(graph2);
+	//printGraph(graph1);
+	//printGraph(graph2);
 
 	int maxNumberOfEdges = 0;
-	std::vector<std::vector<int>> maximalCommonSubgraph;
 
 	std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
 	auto permutationsOfBiggerGraph = getPermutationsOfBiggerGraph();

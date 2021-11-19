@@ -5,18 +5,26 @@
 #include "ApproximateMaximalSubgraph.h"
 #include "ApproximateMinimalSupergraph.h"
 #include "ExactMaximalSubgraph.h"
+#include "twoGraphs.h"
 
 int main()
 {
-    ApproximateMaximalSubgraph maximalSubgraph;
+    /*ApproximateMaximalSubgraph maximalSubgraph;
     maximalSubgraph.getMaximalCommonSubgraph();
     maximalSubgraph.printMaximalCommonSubgraph();
     ApproximateMinimalSupergraph minimalSupergraph(maximalSubgraph);
     minimalSupergraph.getMinimalCommonSupergraph();
-    minimalSupergraph.printMinimalCommonSupergraph();
+    minimalSupergraph.printMinimalCommonSupergraph();*/
 
-    ExactSubgraph exact;
-    exact.generateMaximalCommonSubgraph();
+    std::cout << "twoGraphs solution\n";
+
+    twoGraphs solution = twoGraphs("input22.txt");
+    solution.computeApproximateSolution();
+    solution.computeExactSolution();
+    solution.printSolution();
+
+    //ExactSubgraph exact;
+    //exact.generateMaximalCommonSubgraph();
 
 }
 

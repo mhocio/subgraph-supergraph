@@ -144,12 +144,14 @@
     <ClCompile Include="ExactMaximalSubgraph.cpp" />
     <ClCompile Include="GraphReader.cpp" />
     <ClCompile Include="Supergraph.cpp" />
+    <ClCompile Include="twoGraphs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApproximateMaximalSubgraph.h" />
     <ClInclude Include="ApproximateMinimalSupergraph.h" />
     <ClInclude Include="ExactMaximalSubgraph.h" />
     <ClInclude Include="GraphReader.h" />
+    <ClInclude Include="twoGraphs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
