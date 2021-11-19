@@ -3,7 +3,7 @@
 
 ApproximateMaximalSubgraph::ApproximateMaximalSubgraph() {
 	GraphReader reader;
-	reader.readInput("input2.txt");
+	reader.readInput("input22.txt");
 	// making sure the graph with most number of vertices is assigned first
 	if (reader.graph1.size() > reader.graph2.size()) {
 		graph1 = reader.graph1;

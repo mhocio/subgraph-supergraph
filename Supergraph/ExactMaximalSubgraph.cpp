@@ -2,9 +2,9 @@
 
 ExactMaximalSubgraph::ExactMaximalSubgraph() {
 	GraphReader reader;
-	reader.readInput("input.txt");
+	reader.readInput("input2.txt");
 	// making sure the graph with most number of vertices is assigned first
-	if (graph1.size() > graph2.size()) {
+	if (reader.graph1.size() > reader.graph2.size()) {
 		graph1 = reader.graph1;
 		graph2 = reader.graph2;
 	}
@@ -13,6 +13,8 @@ ExactMaximalSubgraph::ExactMaximalSubgraph() {
 		graph1 = reader.graph2;
 	}
 }
+
+int ExactMaximalSubgraph::_count = 0;
 
 // https://stackoverflow.com/questions/12991758/creating-all-possible-k-combinations-of-n-items-in-c/28698654
 std::vector<std::vector<int>> comb(int N, int K) {
@@ -63,9 +65,7 @@ std::vector<std::pair<std::vector<int>, std::vector<int> > > ExactMaximalSubgrap
 	} while (std::next_permutation(numbers.begin(), numbers.end()));
 
 	for (int i = 0; i < perms.size(); i++) {
-		for (int j = 0; j < perms.size(); j++) {
-			ret.push_back(std::make_pair(perms[i], perms[j]));
-		}
+		ret.push_back(std::make_pair(perms[i], perms[i]));
 	}
 
 	return ret;
@@ -113,12 +113,13 @@ std::vector<std::vector<int>> generateCandidate(std::vector<std::vector<int>> sm
 	return ret;
 }
 
-int compareOverlayGraphs(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
+int ExactMaximalSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
 	int count = 0;
 	// return -1 if they do NOT overlap
 	for (int i = 0; i < smallG.size(); i++) {
 		for (int j = 0; j < smallG.size(); j++) {
 			if (smallG[i][j] != bigG[i][j]) {
+				_count++;
 				return -1;
 			}
 			else if (smallG[i][j] == 1) {
@@ -126,6 +127,10 @@ int compareOverlayGraphs(std::vector<std::vector<int>> bigG, std::vector<std::ve
 			}
 		}
 	}
+
+	/*if (count == 6) {
+		std::cout << ":(\n";
+	}*/
 
 	return count;
 }
@@ -160,11 +165,13 @@ void ExactMaximalSubgraph::generateMaximalCommonSubgraph() {
 	int maxNumberOfEdges = 0;
 	std::vector<std::vector<int>> maximalCommonSubgraph;
 
+	std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
 	auto permutationsOfBiggerGraph = getPermutationsOfBiggerGraph();
+
 	for (auto permOfBiggerGraph : permutationsOfBiggerGraph) {
 		auto reorderedGraph = generateReorderedGraph(permOfBiggerGraph);
 
-		std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
+		//std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
 		for (std::vector<int> verticesOfSmallerGraph : setOfAllVerticesCandidates) {
 			auto smallGraphCandidate = generateCandidate(graph2, verticesOfSmallerGraph);
 			int numOfEdges = compareOverlayGraphs(reorderedGraph, smallGraphCandidate);
@@ -175,9 +182,6 @@ void ExactMaximalSubgraph::generateMaximalCommonSubgraph() {
 			}
 		}
 	}
-
-	std::cout << maxNumberOfEdges << '\n';
-	printGraph(maximalCommonSubgraph);
 
 	//auto a = comb(5, 3);
 	/*auto a = getPerms(5);
