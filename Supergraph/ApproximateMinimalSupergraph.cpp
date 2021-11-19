@@ -18,7 +18,8 @@ void ApproximateMinimalSupergraph::getEmbedding() {
 				(approx.maximalCommonSubgraphVerticesGraph2.find(i) == approx.maximalCommonSubgraphVerticesGraph2.end() &&
 					approx.maximalCommonSubgraphVerticesGraph2.find(j) != approx.maximalCommonSubgraphVerticesGraph2.end())) {
 
-				embedding[approx.verticesFromGraph2ToGraph1[i]][approx.verticesFromGraph2ToGraph1[j]] = 1;
+				//if (n > approx.verticesFromGraph2ToGraph1[i] && n > approx.verticesFromGraph2ToGraph1[j])
+					embedding[approx.verticesFromGraph2ToGraph1[i]][approx.verticesFromGraph2ToGraph1[j]] = 1;
 			}
 
 		}

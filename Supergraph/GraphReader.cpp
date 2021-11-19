@@ -38,8 +38,6 @@ int GraphReader::readInput(const char* filename) {
 		
 		file.close();
 
-	return 0;
-
 	}
-
+	return 0;
 }

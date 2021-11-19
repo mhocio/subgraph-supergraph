@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ApproximateMaximalSubgraph.h"
 #include "ApproximateMinimalSupergraph.h"
+#include "ExactMaximalSubgraph.h"
 
 int main()
 {
@@ -13,6 +14,9 @@ int main()
     ApproximateMinimalSupergraph minimalSupergraph(maximalSubgraph);
     minimalSupergraph.getMinimalCommonSupergraph();
     minimalSupergraph.printMinimalCommonSupergraph();
+
+    ExactMaximalSubgraph exact;
+    exact.generateMaximalCommonSubgraph();
 
 }
 
