@@ -3,9 +3,9 @@
 
 ApproximateMaximalSubgraph::ApproximateMaximalSubgraph() {
 	GraphReader reader;
-	reader.readInput("input.txt");
+	reader.readInput("input2.txt");
 	// making sure the graph with most number of vertices is assigned first
-	if (graph1.size() > graph2.size()) {
+	if (reader.graph1.size() > reader.graph2.size()) {
 		graph1 = reader.graph1;
 		graph2 = reader.graph2;
 	}
@@ -130,6 +130,7 @@ void ApproximateMaximalSubgraph::getMaximalCommonSubgraph() {
 			// We project onto the second, smaller graph.
 			int projected_vi = getComponentIndices(subVertices[i]).second;
 			int projected_vj = getComponentIndices(subVertices[j]).second;
+			//if (projected_vi < graph1.size() && projected_vj < graph1.size())
 			if (graph1[projected_vi][projected_vj] == 1) {
 				maximalCommonSubgraph[i][j] = 1;
 			}
