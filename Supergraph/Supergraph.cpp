@@ -7,6 +7,7 @@
 #include <string>
 #include <direct.h>
 #include <chrono>
+#include <stdlib.h>
 #include "ApproximateMaximalSubgraph.h"
 #include "ApproximateMinimalSupergraph.h"
 #include "ExactMaximalSubgraph.h"
@@ -56,10 +57,43 @@ void menu() {
     std::system("pause");
 }
 
+void program() {
+    bool loop = true;
+    while (loop) {
+        system("CLS");  // clear terminal
+
+        std::string base_path = "Examples/";
+        std::string filename;
+        std::cout << "Enter the name of the input file, e.g. name.txt" << std::endl;
+        std::cin >> filename;
+        filename = base_path + filename;
+        twoGraphs solution = twoGraphs(filename);
+
+        if (solution.initialized()) {
+            solution.computeApproximateSolution();
+            solution.computeExactSolution();
+            solution.printSolution();
+        }
+        else {
+            std::cout << "Could not read the file.\n";
+        }
+
+        std::cout << "Do you want to test another graph? Type yes or y if so. ";
+        std::string ans;
+        std::cin >> ans;
+        if (ans != "yes" && ans != "y") {
+            loop = false;
+        }
+    }
+
+    std::system("pause");
+}
+
 int main(int argc, char* argv[])
 {
     //gen();
-    menu();
+    program();
+    //menu();
 }
 
 /*

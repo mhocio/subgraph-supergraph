@@ -39,5 +39,9 @@ int GraphReader::readInput(const char* filename) {
 		file.close();
 
 	}
+	else {
+		// file not opened
+		return 1;
+	}
 	return 0;
 }

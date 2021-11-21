@@ -37,6 +37,7 @@ public:
 	double approximateSolutionTime;
 
 	struct graphComarison_t compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2);
+	bool initialized();
 
 private:
 	twoGraphs();
@@ -51,7 +52,6 @@ private:
 	std::vector<std::vector<int>> approximateMinimalSupergraph;
 
 	void printGraph(std::vector<std::vector<int>>);
-	bool initialized();
 	void editSolutionAfterTwoAlgorithms();
 
 	bool approximateComputed;
