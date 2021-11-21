@@ -24,9 +24,10 @@ void generateAndWrite(int numberOfGraphs, int n1, int n2, int density1, int dens
             std::to_string(n1) + "-" +
             std::to_string(n2) + "-" +
             std::to_string(density1) + "-" +
-            std::to_string(density2) + "__" + 
+            std::to_string(density2) + "__" +
             std::to_string(i) + ".txt");
     }
+}
 
 using namespace std::chrono;
 
@@ -95,5 +96,3 @@ void main(void)
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
-
-}
