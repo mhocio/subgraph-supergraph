@@ -223,3 +223,5 @@ void twoGraphs::computeApproximateSolution()
 		editSolutionAfterTwoAlgorithms();
 	}
 }
+
+

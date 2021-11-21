@@ -142,6 +142,7 @@
     <ClCompile Include="ApproximateMaximalSubgraph.cpp" />
     <ClCompile Include="ApproximateMinimalSupergraph.cpp" />
     <ClCompile Include="ExactMaximalSubgraph.cpp" />
+    <ClCompile Include="GraphGenerator.cpp" />
     <ClCompile Include="GraphReader.cpp" />
     <ClCompile Include="Supergraph.cpp" />
     <ClCompile Include="twoGraphs.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="ApproximateMaximalSubgraph.h" />
     <ClInclude Include="ApproximateMinimalSupergraph.h" />
     <ClInclude Include="ExactMaximalSubgraph.h" />
+    <ClInclude Include="GraphGenerator.h" />
     <ClInclude Include="GraphReader.h" />
     <ClInclude Include="twoGraphs.h" />
   </ItemGroup>
