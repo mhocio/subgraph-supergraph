@@ -61,20 +61,25 @@ void twoGraphs::editSolutionAfterTwoAlgorithms() {
 	if (exactComputed && approximateComputed) {
 		compareSupergraphs = compareGraphs(exactAlgorithm.minimalSupergraph, approximateMinimalSupergraphAlgorithm.minimalCommonSupergraph);
 		// change the bigger graph to be simillar to the smaller one
-		if (exactMinimalSupergraph.size() >= approximateMinimalSupergraph.size()) {
-			exactMinimalSupergraph = compareSupergraphs.bestGraph;
-		}
-		else {
-			approximateMinimalSupergraph = compareSupergraphs.bestGraph;
+		// as they were different and we try to show how much similar they are
+		if (!compareSupergraphs.correctMappingFound) {
+			if (exactMinimalSupergraph.size() >= approximateMinimalSupergraph.size()) {
+				exactMinimalSupergraph = compareSupergraphs.bestGraph;
+			}
+			else {
+				approximateMinimalSupergraph = compareSupergraphs.bestGraph;
+			}
 		}
 
 		compareSubgraphs = compareGraphs(exactMaximalSubgraph, approximateMaximalSubgraph);
 		// change the bigger graph to be simillar to the smaller one
-		if (exactMaximalSubgraph.size() >= approximateMaximalSubgraph.size()) {
-			exactMaximalSubgraph = compareSubgraphs.bestGraph;
-		}
-		else {
-			approximateMaximalSubgraph = compareSubgraphs.bestGraph;
+		if (!compareSubgraphs.correctMappingFound) {
+			if (exactMaximalSubgraph.size() >= approximateMaximalSubgraph.size()) {
+				exactMaximalSubgraph = compareSubgraphs.bestGraph;
+			}
+			else {
+				approximateMaximalSubgraph = compareSubgraphs.bestGraph;
+			}
 		}
 
 		editedSolutionAfterTwoAlgorithms = true;
@@ -223,5 +228,3 @@ void twoGraphs::computeApproximateSolution()
 		editSolutionAfterTwoAlgorithms();
 	}
 }
-
-
