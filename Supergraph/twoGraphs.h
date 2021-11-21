@@ -9,6 +9,13 @@
 #include "ApproximateMinimalSupergraph.h"
 #include "ExactMaximalSubgraph.h"
 
+struct graphComarison_t {
+	bool correctMappingFound; // if graph are same
+	int missingEdges;
+	int redundantEdges;
+	std::vector<std::vector<int>> bestGraph;
+};
+
 class twoGraphs
 {
 public:
@@ -38,8 +45,13 @@ public:
 	struct graphComarison_t compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2);
 
 private:
+	void editSolutionAfterTwoAlgorithms();
 	bool approximateComputed;
 	bool exactComputed;
 	bool readFromFfile;
+	bool editedSolutionAfterTwoAlgorithms;
+
+	graphComarison_t compareSupergraphs;
+	graphComarison_t compareSubgraphs;
 };
 
