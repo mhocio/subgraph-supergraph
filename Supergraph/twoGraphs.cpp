@@ -1,5 +1,12 @@
 #include "twoGraphs.h"
 
+struct graphComarison_t {
+	bool correctMappingFound; // if graph are same
+	int missingEdges;
+	int redundantEdges;
+	std::vector<std::vector<int>> bestGraph;
+};
+
 twoGraphs::twoGraphs()
 {
 	approximateComputed = false;
@@ -71,14 +78,16 @@ void twoGraphs::printSolution()
 	}
 
 	if (exactComputed && approximateComputed) {
-		if (compareGraphs(exactAlgorithm.minimalSupergraph, approximateMinimalSupergraphAlgorithm.minimalCommonSupergraph)) {
+		auto compareSupergraphs = compareGraphs(exactAlgorithm.minimalSupergraph, approximateMinimalSupergraphAlgorithm.minimalCommonSupergraph);
+		if (compareSupergraphs.correctMappingFound) {
 			std::cout << "Supergraphs of two algorithms are same!\n";
 		}
 		else {
 			std::cout << "Supergraphs of two algorithms are NOT same...\n";
 		}
 
-		if (compareGraphs(exactAlgorithm.maximalCommonSubgraph, approximateMaximalSubgraphAlgorithm.maximalCommonSubgraph)) {
+		auto compareSubgraphs = compareGraphs(exactAlgorithm.maximalCommonSubgraph, approximateMaximalSubgraphAlgorithm.maximalCommonSubgraph);
+		if (compareSubgraphs.correctMappingFound) {
 			std::cout << "Common subgraphs of two algorithms are same!\n";
 		}
 		else {
@@ -87,28 +96,56 @@ void twoGraphs::printSolution()
 	}
 }
 
-bool twoGraphs::compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2) {
+// second graph must be bigger or equal to the second one
+struct graphComarison_t twoGraphs::compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2) {
+	if (G1.size() > G2.size()) {
+		std::swap(G1, G2);
+	}
+
 	auto permutationsOfExactGraph = exactAlgorithm.getPermutationsOfSize(G1.size());
 
-	bool correctMappingFound = false;
+	bool finalCorrectMappingFound = false;
+	int minMissingEdges = std::numeric_limits<int>::max();
+	int minRedundantEdges = std::numeric_limits<int>::max();
+	std::vector<std::vector<int>> bestGraph;
+	graphComarison_t ret;
 
 	for (auto permOfExactGraph : permutationsOfExactGraph) {
 		auto reorderedGraph = exactAlgorithm.generateReorderedGraph(permOfExactGraph, G1);
-		correctMappingFound = true;
+		bool correctMappingFound = true;
+		int missingEdges = 0;
+		int redundantEdges = 0;
 
 		for (int i = 0; i < G1.size(); i++) {
 			for (int j = 0; j < G1[i].size(); j++) {
 				if (reorderedGraph[i][j] != G2[i][j]) {
 					correctMappingFound = false;
+					/*if (reorderedGraph[i][j] == 0) {
+						missingEdges++;
+					}
+					else {
+						redundantEdges++;
+					}*/
 				}
 			}
 		}
+
 		if (correctMappingFound) {
-			return correctMappingFound;
+			finalCorrectMappingFound = true;
+		}
+		else if ((minMissingEdges + minRedundantEdges) > (missingEdges + redundantEdges)) {
+			minMissingEdges = missingEdges;
+			minRedundantEdges = redundantEdges;
+			bestGraph = reorderedGraph;
 		}
 	}
 
-	return false;
+	ret.correctMappingFound = finalCorrectMappingFound;
+	ret.missingEdges = minMissingEdges;
+	ret.redundantEdges = minRedundantEdges;
+	ret.bestGraph = bestGraph;
+
+	return ret;
 }
 
 void twoGraphs::computeExactSolution()

@@ -2,6 +2,8 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <limits>
 #include "GraphReader.h"
 #include "ApproximateMaximalSubgraph.h"
 #include "ApproximateMinimalSupergraph.h"
@@ -33,7 +35,7 @@ public:
 	std::vector<std::vector<int>> approximateMaximalSubgraph;
 	std::vector<std::vector<int>> approximateMinimalSupergraph;
 
-	bool compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2);
+	struct graphComarison_t compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2);
 
 private:
 	bool approximateComputed;
