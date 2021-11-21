@@ -4,6 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <limits>
+#include <chrono>
 #include "GraphReader.h"
 #include "ApproximateMaximalSubgraph.h"
 #include "ApproximateMinimalSupergraph.h"
@@ -16,6 +17,8 @@ struct graphComarison_t {
 	std::vector<std::vector<int>> bestGraph;
 };
 
+using namespace std::chrono;
+
 class twoGraphs
 {
 public:
@@ -27,9 +30,11 @@ public:
 
 	// exact solution
 	void computeExactSolution();
+	double exactSolutionTime;
 
 	// approximate solution
 	void computeApproximateSolution();
+	double approximateSolutionTime;
 
 	struct graphComarison_t compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2);
 

@@ -6,10 +6,13 @@
 #include <windows.h>
 #include <string>
 #include <direct.h>
+#include <chrono>
 #include "ApproximateMaximalSubgraph.h"
 #include "ApproximateMinimalSupergraph.h"
 #include "ExactMaximalSubgraph.h"
 #include "twoGraphs.h"
+
+using namespace std::chrono;
 
 int main(int argc, char* argv[])
 {
@@ -27,10 +30,17 @@ int main(int argc, char* argv[])
     _getcwd(buff, 256);
     std::string current_working_dir(buff);  // not used yet
 
+    //auto start = high_resolution_clock::now();
+
     twoGraphs solution = twoGraphs("Examples/input5.txt");
     solution.computeApproximateSolution();
     solution.computeExactSolution();
     solution.printSolution();
+
+    /*auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+
+    std::cout << "Time taken by function: " << (double)duration.count()/1000000 << " seconds\n";*/
 
     //ExactSubgraph exact;
     //exact.generateMaximalCommonSubgraph();

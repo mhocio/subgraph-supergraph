@@ -101,8 +101,13 @@ void twoGraphs::printSolution()
 		}
 	}
 
+
+	if (approximateComputed)
+		std::cout << "Approximate algorithm computed in " << approximateSolutionTime << " seconds\n";
+	if (exactComputed) 
+		std::cout << "Exact algorithm computed in " << exactSolutionTime << " seconds\n";
+
 	if (approximateComputed) {
-		std::cout << "Approximate algorithm computed\n";
 		std::cout << "approximateMaximalSubgraph\n";
 		printGraph(approximateMaximalSubgraph);
 		std::cout << "approximateMinimalSupergraph\n";
@@ -110,7 +115,6 @@ void twoGraphs::printSolution()
 	}
 
 	if (exactComputed) {
-		std::cout << "Exact algorithm computed\n";
 		std::cout << "exactMinimalSupergraph\n";
 		printGraph(exactMinimalSupergraph);
 		std::cout << "exactMaximalSubgraph\n";
@@ -180,7 +184,14 @@ struct graphComarison_t twoGraphs::compareGraphs(std::vector<std::vector<int>> G
 
 void twoGraphs::computeExactSolution()
 {
+	auto start = high_resolution_clock::now();
+
 	exactAlgorithm.generateMaximalCommonSubgraph();
+
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(stop - start);
+	exactSolutionTime = (double)duration.count() / 1000000; // in seconds
+
 	exactMaximalSubgraph = exactAlgorithm.maximalCommonSubgraph;
 	exactMinimalSupergraph = exactAlgorithm.minimalSupergraph;
 
@@ -193,12 +204,17 @@ void twoGraphs::computeExactSolution()
 
 void twoGraphs::computeApproximateSolution()
 {
+	auto start = high_resolution_clock::now();
 	approximateMaximalSubgraphAlgorithm.getMaximalCommonSubgraph();
 	approximateMaximalSubgraph = approximateMaximalSubgraphAlgorithm.maximalCommonSubgraph;
 
 	// this can be used only after getMaximalCommonSubgraph() method was called
 	approximateMinimalSupergraphAlgorithm = ApproximateMinimalSupergraph(approximateMaximalSubgraphAlgorithm);
 	approximateMinimalSupergraphAlgorithm.getMinimalCommonSupergraph();
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(stop - start);
+	approximateSolutionTime = (double)duration.count() / 1000000; // in seconds
+
 	approximateMinimalSupergraph = approximateMinimalSupergraphAlgorithm.minimalCommonSupergraph;
 
 	approximateComputed = true;
