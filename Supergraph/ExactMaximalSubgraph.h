@@ -11,8 +11,8 @@ public:
 	ExactSubgraph();
 	ExactSubgraph(std::vector<std::vector<int>>, std::vector<std::vector<int>>);
 	void generateMaximalCommonSubgraph();
-	std::vector<std::pair<std::vector<int>, std::vector<int> > > getPermutationsOfBiggerGraph();
-	std::vector<std::vector<int>> generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> >);
+	std::vector<std::pair<std::vector<int>, std::vector<int> > > getPermutationsOfSize(int size);
+	std::vector<std::vector<int>> generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> >, std::vector<std::vector<int>>);
 	int compareOverlayGraphs(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG);
 	int compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG);
 
