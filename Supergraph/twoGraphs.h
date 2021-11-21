@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include <string>
+#include <random>
 #include "GraphReader.h"
 #include "ApproximateMaximalSubgraph.h"
 #include "ApproximateMinimalSupergraph.h"
@@ -32,6 +34,7 @@ public:
 	ApproximateMinimalSupergraph approximateMinimalSupergraphAlgorithm;
 	std::vector<std::vector<int>> approximateMaximalSubgraph;
 	std::vector<std::vector<int>> approximateMinimalSupergraph;
+
 
 private:
 	bool approximateComputed;

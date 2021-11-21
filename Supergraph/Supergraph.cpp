@@ -6,36 +6,42 @@
 #include "ApproximateMinimalSupergraph.h"
 #include "ExactMaximalSubgraph.h"
 #include "twoGraphs.h"
+#include "GraphGenerator.h"
 
-int main()
+void generateAndWrite(int numberOfGraphs, int n1, int n2, int density1, int density2) {
+    GraphGenerator generator;
+    std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> graphs;
+
+    for (int i = 0; i < numberOfGraphs; i++) {
+        graphs = generator.generateGraphs(n1, n2, density1, density2);
+        generator.writeGraphsToFile(graphs,
+            "gen_" +
+            std::to_string(n1) + "-" +
+            std::to_string(n2) + "-" +
+            std::to_string(density1) + "-" +
+            std::to_string(density2) + "__" + 
+            std::to_string(i) + ".txt");
+    }
+
+}
+
+void main(void)
 {
-    /*ApproximateMaximalSubgraph maximalSubgraph;
-    maximalSubgraph.getMaximalCommonSubgraph();
-    maximalSubgraph.printMaximalCommonSubgraph();
-    ApproximateMinimalSupergraph minimalSupergraph(maximalSubgraph);
-    minimalSupergraph.getMinimalCommonSupergraph();
-    minimalSupergraph.printMinimalCommonSupergraph();
-    std::cout << minimalSupergraph.approx.graph1.size() << "\n";*/
-
-    //std::cout << "-------------twoGraphs solution-----------\n";
-
-    twoGraphs solution = twoGraphs("input.txt");
+    generateAndWrite(1, 9, 6, 40, 40);
+    //generateAndWrite(100, 40, 20, 40, 40);
+    //generateAndWrite(100, 60, 30, 40, 40);
+    //generateAndWrite(100, 80, 40, 40, 40);
+    //generateAndWrite(100, 100, 50, 40, 40);
+    std::string base_path = "Examples/";
+    std::string filename;
+    std::cout << "Enter the name of the input file, e.g. name.txt" << std::endl;
+    std::cin >> filename;
+    filename = base_path + filename;
+    twoGraphs solution = twoGraphs(filename);
     solution.computeApproximateSolution();
     solution.computeExactSolution();
     solution.printSolution();
 
-    //ExactSubgraph exact;
-    //exact.generateMaximalCommonSubgraph();
+    std::system("pause");
 
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

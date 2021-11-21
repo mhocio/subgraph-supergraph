@@ -56,7 +56,7 @@ void twoGraphs::printSolution()
 {
 	if (approximateComputed) {
 		std::cout << "Approximate algorithm computed\n";
-		std::cout << "approximateMinimalSupergraph\n";
+		std::cout << "approximateMaximalSubgraph\n";
 		printGraph(approximateMaximalSubgraph);
 		std::cout << "approximateMinimalSupergraph\n";
 		printGraph(approximateMinimalSupergraph);
@@ -92,3 +92,5 @@ void twoGraphs::computeApproximateSolution()
 
 	approximateComputed = true;
 }
+
+
