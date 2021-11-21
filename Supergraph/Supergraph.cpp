@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     _getcwd(buff, 256);
     std::string current_working_dir(buff);  // not used yet
 
-    twoGraphs solution = twoGraphs("input.txt");
+    twoGraphs solution = twoGraphs("Examples/input2.txt");
     solution.computeApproximateSolution();
     solution.computeExactSolution();
     solution.printSolution();
@@ -36,6 +36,31 @@ int main(int argc, char* argv[])
     //exact.generateMaximalCommonSubgraph();
 
 }
+
+// Supergraph.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+/*#include <iostream>
+#include "ApproximateMaximalSubgraph.h"
+#include "ApproximateMinimalSupergraph.h"
+#include "ExactMaximalSubgraph.h"
+#include "twoGraphs.h"
+
+void main(void)
+{
+    std::string base_path = "./../Examples/";
+    std::string filename;
+    std::cout << "Enter the name of the input file, e.g. name.txt" << std::endl;
+    std::cin >> filename;
+    filename = base_path + filename;
+    twoGraphs solution = twoGraphs(filename);
+    solution.computeApproximateSolution();
+    solution.computeExactSolution();
+    solution.printSolution();
+
+    std::system("pause");
+
+}*/
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
