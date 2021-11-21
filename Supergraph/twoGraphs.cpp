@@ -17,20 +17,24 @@ twoGraphs::twoGraphs(std::string inputFile)
 {
 	twoGraphs();
 	GraphReader reader;
-	reader.readInput(inputFile.c_str());
-	// making sure the graph with most number of vertices is assigned first
-	if (reader.graph1.size() > reader.graph2.size()) {
-		graph1 = reader.graph1;
-		graph2 = reader.graph2;
-	}
-	else {
-		graph2 = reader.graph1;
-		graph1 = reader.graph2;
-	}
-	approximateMaximalSubgraphAlgorithm = ApproximateMaximalSubgraph(graph1, graph2);
-	exactAlgorithm = ExactSubgraph(graph1, graph2);
+	int ret = reader.readInput(inputFile.c_str());
 
-	readFromFfile = true;
+	if (ret == 0) {
+
+		// making sure the graph with most number of vertices is assigned first
+		if (reader.graph1.size() > reader.graph2.size()) {
+			graph1 = reader.graph1;
+			graph2 = reader.graph2;
+		}
+		else {
+			graph2 = reader.graph1;
+			graph1 = reader.graph2;
+		}
+		approximateMaximalSubgraphAlgorithm = ApproximateMaximalSubgraph(graph1, graph2);
+		exactAlgorithm = ExactSubgraph(graph1, graph2);
+
+		readFromFfile = true;
+	}
 }
 
 bool twoGraphs::initialized()
