@@ -101,6 +101,7 @@ void twoGraphs::printSolution()
 		}
 	}
 
+
 	if (approximateComputed)
 		std::cout << "Approximate algorithm computed in " << approximateSolutionTime << " seconds\n";
 	if (exactComputed) 
