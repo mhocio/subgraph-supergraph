@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     _getcwd(buff, 256);
     std::string current_working_dir(buff);  // not used yet
 
-    twoGraphs solution = twoGraphs("Examples/input2.txt");
+    twoGraphs solution = twoGraphs("Examples/input5.txt");
     solution.computeApproximateSolution();
     solution.computeExactSolution();
     solution.printSolution();

@@ -137,16 +137,20 @@ int ExactSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> bigG, std:
 	return count;
 }
 
+// return -1 if small graph do not overlap on the bigger one
+// return number of edges of the smaller graph otherwise
 int ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
 	int count = 0;
 	for (int i = 0; i < smallG.size(); i++) {
 		for (int j = 0; j < smallG.size(); j++) {
 			if (smallG[i][j] != bigG[i][j]) {
+				// we are missing an edge in the bigger graph
 				if (smallG[i][j] == 1) {
-					count++;
+					count++; // add that edge
 				}
+				// we are missing an edge in the smaller graph
 				else {
-					return -1;
+					return -1; // supergraph candidate refused since smaller graph is not contained in the bigger one
 				}
 			}
 		}
@@ -179,6 +183,7 @@ void printGraph(std::vector<std::vector<int>> G) {
 	}
 }
 
+// main function of the whole exact algorithm
 void ExactSubgraph::generateMaximalCommonSubgraph() {
 	// assume 1st graph is bigger or same size
 	//std::vector<std::vector<int>> maximalCommonSubgraph;
@@ -198,7 +203,7 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 	//printGraph(graph2);
 
 	int maxNumberOfEdges = 0;  // for maximal subgraph
-	int minNumberOfEdgesForSupergraph = std::numeric_limits<int>::max();;  // for minimal supergrapf
+	int minNumberOfEdgesForSupergraph = std::numeric_limits<int>::max();  // for minimal supergrapf
 
 	std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
 	auto permutationsOfBiggerGraph = getPermutationsOfSize(graph1.size());
