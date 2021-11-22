@@ -125,7 +125,7 @@ int ExactSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> bigG, std:
 	for (int i = 0; i < smallG.size(); i++) {
 		for (int j = 0; j < smallG.size(); j++) {
 			if (smallG[i][j] != bigG[i][j]) {
-				_count++;
+				//_count++;
 				return -1;
 			}
 			else if (smallG[i][j] == 1) {
@@ -144,14 +144,15 @@ int ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<int
 	for (int i = 0; i < smallG.size(); i++) {
 		for (int j = 0; j < smallG.size(); j++) {
 			if (smallG[i][j] != bigG[i][j]) {
-				// we are missing an edge in the bigger graph
+				/*// we are missing an edge in the bigger graph
 				if (smallG[i][j] == 1) {
 					count++; // add that edge
 				}
 				// we are missing an edge in the smaller graph
 				else {
 					return -1; // supergraph candidate refused since smaller graph is not contained in the bigger one
-				}
+				}*/
+				count++; // add that edge
 			}
 		}
 	}
@@ -230,14 +231,14 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 					minimalSupergraph = generateSuperGraph(reorderedGraph, smallGraphCandidate);
 				}
 
-				if (graph1.size() == graph2.size()) {
+				/*if (graph1.size() == graph2.size()) {
 					int numberOfEdgesForSupergraphReverse = compareOverlayGraphsForSupergraph(smallGraphCandidate, reorderedGraph);
 
 					if (numberOfEdgesForSupergraphReverse >= 0 && numberOfEdgesForSupergraphReverse < minNumberOfEdgesForSupergraph) {
 						minNumberOfEdgesForSupergraph = numberOfEdgesForSupergraphReverse;
 						minimalSupergraph = generateSuperGraph(smallGraphCandidate, reorderedGraph);
 					}
-				}
+				}*/
 			}
 		}
 	}
