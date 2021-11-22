@@ -229,6 +229,15 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 					minNumberOfEdgesForSupergraph = numberOfEdgesForSupergraph;
 					minimalSupergraph = generateSuperGraph(reorderedGraph, smallGraphCandidate);
 				}
+
+				if (graph1.size() == graph2.size()) {
+					int numberOfEdgesForSupergraphReverse = compareOverlayGraphsForSupergraph(smallGraphCandidate, reorderedGraph);
+
+					if (numberOfEdgesForSupergraphReverse >= 0 && numberOfEdgesForSupergraphReverse < minNumberOfEdgesForSupergraph) {
+						minNumberOfEdgesForSupergraph = numberOfEdgesForSupergraphReverse;
+						minimalSupergraph = generateSuperGraph(smallGraphCandidate, reorderedGraph);
+					}
+				}
 			}
 		}
 	}
