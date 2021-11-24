@@ -89,11 +89,24 @@ void program() {
     std::system("pause");
 }
 
+void perfTest() {
+    GraphGenerator generator;
+    int density = 80;
+    std::vector<int> sizes = {10, 40, 70, 100, 130, 160};
+    for (int size: sizes) {
+        twoGraphs solution(generator.generateGraphs(size, size, density, density));
+        solution.computeApproximateSolution();
+        std::cout << "SIZE = " << size << "\n";
+        solution.printExecutionTime();
+    }
+}
+
 int main(int argc, char* argv[])
 {
-    //gen();
+    // perfTest();
+    // gen();
     program();
-    //menu();
+    // menu();
 }
 
 /*

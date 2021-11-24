@@ -13,6 +13,21 @@ twoGraphs::twoGraphs()
 	editedSolutionAfterTwoAlgorithms = false;
 }
 
+twoGraphs::twoGraphs(std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> graphs) {
+	if (graphs.first.size() > graphs.second.size()) {
+		graph1 = graphs.first;
+		graph2 = graphs.second;
+	}
+	else {
+		graph1 = graphs.second;
+		graph2 = graphs.first;
+	}
+	approximateMaximalSubgraphAlgorithm = ApproximateMaximalSubgraph(graph1, graph2);
+	exactAlgorithm = ExactSubgraph(graph1, graph2);
+
+	readFromFfile = true;
+}
+
 twoGraphs::twoGraphs(std::string inputFile)
 {
 	twoGraphs();
@@ -89,6 +104,14 @@ void twoGraphs::editSolutionAfterTwoAlgorithms() {
 	//	editedSolutionAfterTwoAlgorithms = true;
 	//}
 }
+
+void twoGraphs::printExecutionTime() {
+	if (approximateComputed)
+		std::cout << "Approximate algorithm computed in " << approximateSolutionTime << " seconds\n";
+	if (exactComputed)
+		std::cout << "Exact algorithm computed in " << exactSolutionTime << " seconds\n";
+}
+
 
 void twoGraphs::printSolution()
 {
