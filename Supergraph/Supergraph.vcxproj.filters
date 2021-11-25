@@ -38,12 +38,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApproximateMaximalSubgraph.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ApproximateMinimalSupergraph.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="ExactMaximalSubgraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,6 +48,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GraphGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApproximateMaximalSubgraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApproximateMinimalSupergraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

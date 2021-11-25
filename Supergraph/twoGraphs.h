@@ -23,7 +23,9 @@ class twoGraphs
 {
 public:
 	twoGraphs(std::string);
+	twoGraphs(std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> graphs);
 	void printSolution();
+	void printExecutionTime();
 
 	std::vector<std::vector<int>> graph1;  // bigger
 	std::vector<std::vector<int>> graph2;  // smaller
