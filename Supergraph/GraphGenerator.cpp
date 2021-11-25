@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-std::ostream& operator<<(std::ostream& out, const std::vector<std::vector<int>> graph) {
+std::ostream& operator<<(std::ostream& out, const std::vector<std::vector<unsigned __int8>> graph) {
 	for (int i = 0; i < graph.size(); i++) {
 		for (int j = 0; j < graph.size(); j++) {
 			out << graph[i][j];
@@ -20,9 +20,9 @@ GraphGenerator::GraphGenerator() {
 
 }
 
-std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> GraphGenerator::generateGraphs(int n1, int n2, int density1, int density2) {
-	std::vector<std::vector<int>> graph1(n1, std::vector<int>(n1, 0));
-	std::vector<std::vector<int>> graph2(n2, std::vector<int>(n2, 0));
+std::pair<std::vector<std::vector<unsigned __int8>>, std::vector<std::vector<unsigned __int8>>> GraphGenerator::generateGraphs(int n1, int n2, int density1, int density2) {
+	std::vector<std::vector<unsigned __int8>> graph1(n1, std::vector<unsigned __int8>(n1, 0));
+	std::vector<std::vector<unsigned __int8>> graph2(n2, std::vector<unsigned __int8>(n2, 0));
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dis(0, 100);
@@ -58,7 +58,7 @@ std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> GraphGen
 
 }
 
-void GraphGenerator::writeGraphsToFile(std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> input, std::string filename) {
+void GraphGenerator::writeGraphsToFile(std::pair<std::vector<std::vector<unsigned __int8>>, std::vector<std::vector<unsigned __int8>>> input, std::string filename) {
 	std::string basepath = "Examples/Generated/";
 	std::ofstream outfile(basepath + filename);
 	outfile << input.first.size() << std::endl << input.first << input.second.size() << std::endl << input.second;

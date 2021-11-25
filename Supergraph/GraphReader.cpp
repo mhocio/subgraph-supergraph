@@ -13,13 +13,13 @@ int GraphReader::readInput(const char* filename) {
 		std::string line;
 
 		for (int i = 0; i < 2; ++i) {
-			std::vector<std::vector<int> > matrix;
+			std::vector<std::vector<unsigned __int8> > matrix;
 			// not used at the moment
 			std::getline(file, line);
 			vertices = stoi(line);
 
 			for (int j = 0; j < vertices; j++) {
-				std::vector<int> row;
+				std::vector<unsigned __int8> row;
 				std::getline(file, line);
 				for (char& c : line) {
 					if (c != ' ') {

@@ -7,7 +7,7 @@
 class ApproximateMaximalSubgraph {
 public:
 	ApproximateMaximalSubgraph();
-	ApproximateMaximalSubgraph(std::vector<std::vector<int>>, std::vector<std::vector<int>>);
+	ApproximateMaximalSubgraph(std::vector<std::vector<unsigned __int8>>, std::vector<std::vector<unsigned __int8>>);
 	void getModularGraph();
 	std::pair<int, int> getComponentIndices(int v);
 	int getModularIndex(std::pair<int, int> v);
@@ -17,11 +17,11 @@ public:
 	void getMaximalCommonSubgraph();
 	void printMaximalCommonSubgraph();
 	
-	std::vector<std::vector<int>> graph1;
-	std::vector<std::vector<int>> graph2;
-	std::vector<std::vector<int>> modularGraph;
+	std::vector<std::vector<unsigned __int8>> graph1;
+	std::vector<std::vector<unsigned __int8>> graph2;
+	std::vector<std::vector<unsigned __int8>> modularGraph;
 	std::unordered_set<int> maximalCommonSubgraphVerticesGraph1;
 	std::unordered_set<int> maximalCommonSubgraphVerticesGraph2;
 	std::unordered_map<int, int> verticesFromGraph2ToGraph1;
-	std::vector<std::vector<int>> maximalCommonSubgraph;
+	std::vector<std::vector<unsigned __int8>> maximalCommonSubgraph;
 };

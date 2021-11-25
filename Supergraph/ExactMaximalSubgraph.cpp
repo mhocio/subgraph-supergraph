@@ -14,7 +14,7 @@ ExactSubgraph::ExactSubgraph() {
 	}
 }
 
-ExactSubgraph::ExactSubgraph(std::vector<std::vector<int>> g1, std::vector<std::vector<int>> g2)
+ExactSubgraph::ExactSubgraph(std::vector<std::vector<unsigned __int8>> g1, std::vector<std::vector<unsigned __int8>> g2)
 {
 	graph1 = g1;
 	graph2 = g2;
@@ -23,14 +23,14 @@ ExactSubgraph::ExactSubgraph(std::vector<std::vector<int>> g1, std::vector<std::
 int ExactSubgraph::_count = 0;
 
 // https://stackoverflow.com/questions/12991758/creating-all-possible-k-combinations-of-n-items-in-c/28698654
-std::vector<std::vector<int>> comb(int N, int K) {
-	std::vector<std::vector<int>> ret;
+std::vector<std::vector<unsigned __int8>> comb(unsigned __int8 N, unsigned __int8 K) {
+	std::vector<std::vector<unsigned __int8>> ret;
 	std::string bitmask(K, 1); // K leading 1's
 	bitmask.resize(N, 0); // N-K trailing 0's
 
 	// generate integers and permute bitmask
 	do {
-		std::vector<int> combination;
+		std::vector<unsigned __int8> combination;
 		for (int i = 0; i < N; ++i) // [0..N-1] integers
 		{
 			if (bitmask[i]) {
@@ -43,21 +43,21 @@ std::vector<std::vector<int>> comb(int N, int K) {
 	return ret;
 }
 
-std::vector<std::vector<int>> getPerms(int size) {
-	std::vector<std::vector<int>> ret;
+std::vector<std::vector<unsigned __int8>> getPerms(int size) {
+	std::vector<std::vector<unsigned __int8>> ret;
 	for (int i = 2; i <= size; i++) {
-		std::vector<std::vector<int>> appendCombinations = comb(size, i);
+		std::vector<std::vector<unsigned __int8>> appendCombinations = comb(size, i);
 		ret.insert(ret.end(), appendCombinations.begin(), appendCombinations.end());
 	}
 	return ret;
 }
 
-std::vector<std::pair<std::vector<int>, std::vector<int> > > ExactSubgraph::getPermutationsOfSize(int size) {
+std::vector<std::pair<std::vector<unsigned __int8>, std::vector<unsigned __int8> > > ExactSubgraph::getPermutationsOfSize(int size) {
 	// (cols, rows)
-	std::vector<std::pair<std::vector<int>, std::vector<int> > > ret;
+	std::vector<std::pair<std::vector<unsigned __int8>, std::vector<unsigned __int8> > > ret;
 	
-	std::vector<int> numbers;
-	std::vector<std::vector<int>> perms;
+	std::vector<unsigned __int8> numbers;
+	std::vector<std::vector<unsigned __int8>> perms;
 	for (int i = 0; i < size; i++) {
 		numbers.push_back(i);
 	}
@@ -77,21 +77,21 @@ std::vector<std::pair<std::vector<int>, std::vector<int> > > ExactSubgraph::getP
 	return ret;
 }
 
-std::vector<std::vector<int>> ExactSubgraph::generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> > ordering, std::vector<std::vector<int>> G) {
+std::vector<std::vector<unsigned __int8>> ExactSubgraph::generateReorderedGraph(std::pair<std::vector<unsigned __int8>, std::vector<unsigned __int8> > ordering, std::vector<std::vector<unsigned __int8>> G) {
 	// of the First graph
 	// reorder columns
-	std::vector<std::vector<int>> reorderedColumns;
+	std::vector<std::vector<unsigned __int8>> reorderedColumns;
 	for (int i = 0; i < G.size(); i++) {
-		std::vector<int> row;
+		std::vector<unsigned __int8> row;
 		for (int j = 0; j < ordering.first.size(); j++) {
 			row.push_back(G[i][ordering.first[j]]);
 		}
 		reorderedColumns.push_back(row);
 	}
 	// reorder rows
-	std::vector<std::vector<int>> reorderedMatrix;
+	std::vector<std::vector<unsigned __int8>> reorderedMatrix;
 	for (int i = 0; i < G.size(); i++) {
-		std::vector<int> row;
+		std::vector<unsigned __int8> row;
 		for (int j = 0; j < ordering.second.size(); j++) {
 			row.push_back(reorderedColumns[ordering.second[i]][j]);
 		}
@@ -101,11 +101,11 @@ std::vector<std::vector<int>> ExactSubgraph::generateReorderedGraph(std::pair<st
 	return reorderedMatrix;
 }
 
-std::vector<std::vector<int>> generateCandidate(std::vector<std::vector<int>> smallerGraph, std::vector<int> verticesOfSmallerGraph) {
-	std::vector<std::vector<int>> ret;
+std::vector<std::vector<unsigned __int8>> generateCandidate(std::vector<std::vector<unsigned __int8>> smallerGraph, std::vector<unsigned __int8> verticesOfSmallerGraph) {
+	std::vector<std::vector<unsigned __int8>> ret;
 
 	for (int i = 0; i < smallerGraph.size(); i++) {
-		std::vector<int> row;
+		std::vector<unsigned __int8> row;
 		for (int j = 0; j < smallerGraph.size(); j++) {
 			if ((std::find(verticesOfSmallerGraph.begin(), verticesOfSmallerGraph.end(), i) != verticesOfSmallerGraph.end())
 				&& (std::find(verticesOfSmallerGraph.begin(), verticesOfSmallerGraph.end(), j) != verticesOfSmallerGraph.end())) {
@@ -119,7 +119,7 @@ std::vector<std::vector<int>> generateCandidate(std::vector<std::vector<int>> sm
 	return ret;
 }
 
-int ExactSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
+int ExactSubgraph::compareOverlayGraphs(std::vector<std::vector<unsigned __int8>> bigG, std::vector<std::vector<unsigned __int8>> smallG) {
 	int count = 0;
 	// return -1 if they do NOT overlap
 	for (int i = 0; i < smallG.size(); i++) {
@@ -139,7 +139,7 @@ int ExactSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> bigG, std:
 
 // return -1 if small graph do not overlap on the bigger one
 // return number of edges of the smaller graph otherwise
-int ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
+int ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<unsigned __int8>> bigG, std::vector<std::vector<unsigned __int8>> smallG) {
 	int count = 0;
 	for (int i = 0; i < smallG.size(); i++) {
 		for (int j = 0; j < smallG.size(); j++) {
@@ -160,8 +160,8 @@ int ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<int
 	return count;
 }
 
-std::vector<std::vector<int>> ExactSubgraph::generateSuperGraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
-	std::vector<std::vector<int>> ret = bigG;
+std::vector<std::vector<unsigned __int8>> ExactSubgraph::generateSuperGraph(std::vector<std::vector<unsigned __int8>> bigG, std::vector<std::vector<unsigned __int8>> smallG) {
+	std::vector<std::vector<unsigned __int8>> ret = bigG;
 
 	for (int i = 0; i < smallG.size(); i++) {
 		for (int j = 0; j < smallG.size(); j++) {
@@ -175,7 +175,7 @@ std::vector<std::vector<int>> ExactSubgraph::generateSuperGraph(std::vector<std:
 	return ret;
 }
 
-void printGraph(std::vector<std::vector<int>> G) {
+void printGraph(std::vector<std::vector<unsigned __int8>> G) {
 	for (int i = 0; i < G.size(); i++) {
 		for (int j = 0; j < G[i].size(); j++) {
 			std::cout << G[i][j] << " ";
@@ -206,14 +206,14 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 	int maxNumberOfEdges = 0;  // for maximal subgraph
 	int minNumberOfEdgesForSupergraph = std::numeric_limits<int>::max();  // for minimal supergrapf
 
-	std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
+	std::vector<std::vector<unsigned __int8>> setOfAllVerticesCandidates = getPerms(graph2.size());
 	auto permutationsOfBiggerGraph = getPermutationsOfSize(graph1.size());
 
 	for (auto permOfBiggerGraph : permutationsOfBiggerGraph) {
 		auto reorderedGraph = generateReorderedGraph(permOfBiggerGraph, graph1);
 
 		//std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
-		for (std::vector<int> verticesOfSmallerGraph : setOfAllVerticesCandidates) {
+		for (std::vector<unsigned __int8> verticesOfSmallerGraph : setOfAllVerticesCandidates) {
 			auto smallGraphCandidate = generateCandidate(graph2, verticesOfSmallerGraph);
 			int numOfEdges = compareOverlayGraphs(reorderedGraph, smallGraphCandidate);
 

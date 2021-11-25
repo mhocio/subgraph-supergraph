@@ -16,7 +16,7 @@
 
 void generateAndWrite(int numberOfGraphs, int n1, int n2, int density1, int density2) {
     GraphGenerator generator;
-    std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> graphs;
+    std::pair<std::vector<std::vector<unsigned __int8>>, std::vector<std::vector<unsigned __int8>>> graphs;
 
     for (int i = 0; i < numberOfGraphs; i++) {
         graphs = generator.generateGraphs(n1, n2, density1, density2);
@@ -131,8 +131,8 @@ void perfTest2() {
     // This is a test for the approximate algorithm.
     GraphGenerator generator;
     std::vector<int> densities = { 20, 50, 80 };
-    std::vector<int> sizes = { 10, 30, 50, 70, 90 };
-    const int iter = 10;
+    std::vector<int> sizes = { 140 };
+    const int iter = 1;
     std::cout << "--------------------APPROXIMATE ALGORITHM--------------------" << "\n";
     // Part 1: two graphs of the same size and the same density.
     for (int size : sizes) {
@@ -149,19 +149,19 @@ void perfTest2() {
         }
     }
     // Part 2: two graphs of the different sizes and of the different densities.
-    for (int i = 2; i < sizes.size(); ++i) {
-        for (int j = 1; j < densities.size(); ++j) {
-            double result = 0.0;
-            for (int k = 0; k < iter; ++k) {
-                twoGraphs solution(generator.generateGraphs(sizes[i], sizes[i - 2], densities[j], densities[j - 1]));
-                solution.computeApproximateSolution();
-                result += solution.approximateSolutionTime;
-            }
-            result /= (double)iter;
-            std::cout << "SIZE_1 = " << sizes[i] << " SIZE_2 = " << sizes[i - 2] << " DENSITY_1 = " << densities[j] << " DENSITY_2 = " << densities[j - 1] << "\n";
-            std::cout << "AVG_TIME = " << result << "\n\n";
-        }
-    }
+    //for (int i = 2; i < sizes.size(); ++i) {
+    //    for (int j = 1; j < densities.size(); ++j) {
+    //        double result = 0.0;
+    //        for (int k = 0; k < iter; ++k) {
+    //            twoGraphs solution(generator.generateGraphs(sizes[i], sizes[i - 2], densities[j], densities[j - 1]));
+    //            solution.computeApproximateSolution();
+    //            result += solution.approximateSolutionTime;
+    //        }
+    //        result /= (double)iter;
+    //        std::cout << "SIZE_1 = " << sizes[i] << " SIZE_2 = " << sizes[i - 2] << " DENSITY_1 = " << densities[j] << " DENSITY_2 = " << densities[j - 1] << "\n";
+    //        std::cout << "AVG_TIME = " << result << "\n\n";
+    //    }
+    //}
 }
 
 int main(int argc, char* argv[])

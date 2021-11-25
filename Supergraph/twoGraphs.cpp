@@ -13,7 +13,7 @@ twoGraphs::twoGraphs()
 	editedSolutionAfterTwoAlgorithms = false;
 }
 
-twoGraphs::twoGraphs(std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> graphs) {
+twoGraphs::twoGraphs(std::pair<std::vector<std::vector<unsigned __int8>>, std::vector<std::vector<unsigned __int8>>> graphs) {
 	if (graphs.first.size() > graphs.second.size()) {
 		graph1 = graphs.first;
 		graph2 = graphs.second;
@@ -59,7 +59,7 @@ bool twoGraphs::initialized()
 	return false;
 }
 
-void twoGraphs::printGraph(std::vector<std::vector<int>> G)
+void twoGraphs::printGraph(std::vector<std::vector<unsigned __int8>> G)
 {
 	if (G.empty()) {
 		return;
@@ -156,7 +156,7 @@ void twoGraphs::printSolution()
 }
 
 // return changed bigger graph simillar to the smaller one
-struct graphComarison_t twoGraphs::compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2) {
+struct graphComarison_t twoGraphs::compareGraphs(std::vector<std::vector<unsigned __int8>> G1, std::vector<std::vector<unsigned __int8>> G2) {
 	// first graph must be bigger or equal to the second one
 	// as we permutate the bigger graph
 	if (G1.size() < G2.size()) {
@@ -168,7 +168,7 @@ struct graphComarison_t twoGraphs::compareGraphs(std::vector<std::vector<int>> G
 	bool finalCorrectMappingFound = false;
 	int minMissingEdges = std::numeric_limits<int>::max();
 	int minRedundantEdges = std::numeric_limits<int>::max();
-	std::vector<std::vector<int>> bestGraph;
+	std::vector<std::vector<unsigned __int8>> bestGraph;
 	graphComarison_t ret;
 
 	for (auto permOfExactGraph : permutationsOfExactGraph) {
