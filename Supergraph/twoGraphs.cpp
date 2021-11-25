@@ -113,6 +113,7 @@ void twoGraphs::printExecutionTime() {
 }
 
 
+
 void twoGraphs::printSolution()
 {
 	if (exactComputed && approximateComputed && editedSolutionAfterTwoAlgorithms) {

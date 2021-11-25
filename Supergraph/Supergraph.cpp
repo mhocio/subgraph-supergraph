@@ -89,23 +89,86 @@ void program() {
     std::system("pause");
 }
 
-void perfTest() {
+void perfTest1() {
+    // This is a test for the exact algorithm.
     GraphGenerator generator;
-    int density = 80;
-    std::vector<int> sizes = {10, 40, 70, 100, 130, 160};
+    std::vector<int> densities = { 20, 50, 80 };
+    std::vector<int> sizes = {3, 4, 5, 6};
+    const int iter = 10;
+    std::cout << "--------------------EXACT ALGORITHM--------------------" << "\n";
+    // Part 1: two graphs of the same size and the same density.
     for (int size: sizes) {
-        twoGraphs solution(generator.generateGraphs(size, size, density, density));
-        solution.computeApproximateSolution();
-        std::cout << "SIZE = " << size << "\n";
-        solution.printExecutionTime();
+        for (int density : densities) {
+            double result = 0.0;
+            for (int i = 0; i < iter; ++i) {
+                twoGraphs solution(generator.generateGraphs(size, size, density, density));
+                solution.computeExactSolution();
+                result += solution.exactSolutionTime;
+            }
+            result /= (double)iter;
+            
+            std::cout << "SIZE_1 = " << size << " SIZE_2 = " << size << " DENSITY_1 = " << density << " DENSITY_2 = " << density << "\n";
+            std::cout << "AVG_TIME = " << result << "\n\n";
+        }
+    }
+    // Part 2: two graphs of the different sizes and of the different densities.
+    for (int i = 2; i < sizes.size(); ++i) {
+        for (int j = 1; j < densities.size(); ++j) {
+            double result = 0.0;
+            for (int k = 0; k < iter; ++k) {
+                twoGraphs solution(generator.generateGraphs(sizes[i], sizes[i - 2], densities[j], densities[j - 1]));
+                solution.computeExactSolution();
+                result += solution.exactSolutionTime;
+            }
+            result /= (double)iter;
+            std::cout << "SIZE_1 = " << sizes[i] << " SIZE_2 = " << sizes[i - 2] << " DENSITY_1 = " << densities[j] << " DENSITY_2 = " << densities[j - 1] << "\n";
+            std::cout << "AVG_TIME = " << result << "\n\n";
+        }
+    }
+}
+
+void perfTest2() {
+    // This is a test for the approximate algorithm.
+    GraphGenerator generator;
+    std::vector<int> densities = { 20, 50, 80 };
+    std::vector<int> sizes = { 10, 30, 50, 70, 90 };
+    const int iter = 10;
+    std::cout << "--------------------APPROXIMATE ALGORITHM--------------------" << "\n";
+    // Part 1: two graphs of the same size and the same density.
+    for (int size : sizes) {
+        for (int density : densities) {
+            double result = 0.0;
+            for (int i = 0; i < iter; ++i) {
+                twoGraphs solution(generator.generateGraphs(size, size, density, density));
+                solution.computeApproximateSolution();
+                result += solution.approximateSolutionTime;
+            }
+            result /= (double)iter;
+            std::cout << "SIZE_1 = " << size << " SIZE_2 = " << size << " DENSITY_1 = " << density << " DENSITY_2 = " << density << "\n";
+            std::cout << "AVG_TIME = " << result << "\n\n";
+        }
+    }
+    // Part 2: two graphs of the different sizes and of the different densities.
+    for (int i = 2; i < sizes.size(); ++i) {
+        for (int j = 1; j < densities.size(); ++j) {
+            double result = 0.0;
+            for (int k = 0; k < iter; ++k) {
+                twoGraphs solution(generator.generateGraphs(sizes[i], sizes[i - 2], densities[j], densities[j - 1]));
+                solution.computeApproximateSolution();
+                result += solution.approximateSolutionTime;
+            }
+            result /= (double)iter;
+            std::cout << "SIZE_1 = " << sizes[i] << " SIZE_2 = " << sizes[i - 2] << " DENSITY_1 = " << densities[j] << " DENSITY_2 = " << densities[j - 1] << "\n";
+            std::cout << "AVG_TIME = " << result << "\n\n";
+        }
     }
 }
 
 int main(int argc, char* argv[])
 {
-    // perfTest();
+    perfTest2();
     // gen();
-    program();
+    // program();
     // menu();
 }
 
