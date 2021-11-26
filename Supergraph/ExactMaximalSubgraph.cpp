@@ -203,8 +203,8 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 	//printGraph(graph1);
 	//printGraph(graph2);
 
-	int maxNumberOfEdges = 0;  // for maximal subgraph
-	int minNumberOfEdgesForSupergraph = std::numeric_limits<int>::max();  // for minimal supergrapf
+	int maxNumberOfEdges = -1;  // for maximal subgraph
+	int minNumberOfEdgesForSupergraph = std::numeric_limits<int>::max();  // for minimal supergraph
 
 	std::vector<std::vector<unsigned __int8>> setOfAllVerticesCandidates = getPerms(graph2.size());
 	auto permutationsOfBiggerGraph = getPermutationsOfSize(graph1.size());
@@ -222,7 +222,7 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 				maximalCommonSubgraph = smallGraphCandidate;
 			}
 
-			// compute minimal Supergrapf
+			// compute minimal Supergraph
 			if (smallGraphCandidate.size() == graph2.size()) {
 				int numberOfEdgesForSupergraph = compareOverlayGraphsForSupergraph(reorderedGraph, smallGraphCandidate);
 
@@ -241,6 +241,10 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 				}*/
 			}
 		}
+	}
+
+	if (graph2.size() == 0) {
+		minimalSupergraph = graph1;
 	}
 
 	//auto a = comb(5, 3);

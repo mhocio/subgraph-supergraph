@@ -42,7 +42,7 @@ void gen() {
     std::string filename;
 }
 
-void menu() {
+void simpleCaseFromFile() {
     //std::cout << "Enter the name of the input file, e.g. name.txt" << std::endl;
     //std::cin >> filename;
     //filename = base_path + filename;
@@ -57,35 +57,159 @@ void menu() {
     std::system("pause");
 }
 
-void program() {
+std::string toLower(std::string data) {
+    std::for_each(data.begin(), data.end(), [](char& c) {
+        c = ::tolower(c);
+        });
+    return data;
+}
+
+bool startswith(const std::string& str, const std::string& cmp="yes")
+{
+    return cmp.compare(0, str.length(), str) == 0;
+}
+
+bool runSingleSolution(twoGraphs solution, std::string algo) {
+    bool loop = true;
+    bool correctInput = true;
+
+    if (algo != "1" && algo != "2" && algo != "3") {
+        std::cout << "Wrong algorithm type. Remember to choose number between 1 and 3\n ex.: input1.txt 3\n";
+        correctInput = false;
+    }
+
+    if (algo == "1" || algo == "2") {
+        if (solution.graph1.size() >= 8) {
+            if (solution.graph1.size() == 8) {
+                std::cout << "Attention. Exact algorithm might take several seconds to compute\n";
+            }
+            if (solution.graph1.size() == 9) {
+                std::cout << "Attention. Exact algorithm might take over a minute to compute\n";
+            }
+            if (solution.graph1.size() == 10) {
+                std::cout << "Attention. Exact algorithm might take over 10mins to compute\n";
+            }
+            if (solution.graph1.size() > 10) {
+                std::cout << "Attention. Exact algorithm might take A LOT (hours?) to compute\n";
+            }
+            std::cout << "Do you still want to compute exact solution? y/n\n";
+            std::string exact;
+            std::cin >> exact;
+            if (!startswith(toLower(exact))) {
+                if (algo == "1") {
+                    algo = "3";
+                }
+                else {
+                    correctInput = false;
+                }
+            }
+        }
+    }
+
+    if (solution.initialized() && correctInput) {
+        if (algo == "1" || algo == "3")
+            solution.computeApproximateSolution();
+        if (algo == "1" || algo == "2")
+            solution.computeExactSolution();
+        solution.printSolutionNice();
+
+        //solution.printSeveralGraphsInOneLine({ {solution.graph2, "graph2"} , {solution.graph1, "graph1"}, {solution.graph2, "graph2"} });
+    }
+    else {
+        std::cout << "Could not read the file.\n";
+    }
+
+    std::cout << "Do you want to test another graph? Type yes or y if so. ";
+    std::string ans;
+    std::cin >> ans;
+
+    if (!startswith(toLower(ans))) {
+        loop = false;
+    }
+
+    /*if (ans != "yes" && ans != "y") {
+        loop = false;
+    }*/
+
+    return loop;
+}
+
+void case1() {
     bool loop = true;
     while (loop) {
         system("CLS");  // clear terminal
 
         std::string base_path = "Examples/";
         std::string filename;
-        std::cout << "Enter the name of the input file, e.g. name.txt" << std::endl;
-        std::cin >> filename;
+        std::string algo;
+        std::cout << "Enter the name of the input file and 1 or 2 or 3 after space for\\
+            \n1)both algorithms\n2)only exact algorithms\n3)only approximate algorithms\nex: name.txt 2" << std::endl;
+        std::cin >> filename >> algo;
         filename = base_path + filename;
         twoGraphs solution = twoGraphs(filename);
 
-        if (solution.initialized()) {
-            solution.computeApproximateSolution();
-            solution.computeExactSolution();
-            solution.printSolution();
-        }
-        else {
-            std::cout << "Could not read the file.\n";
+        loop = runSingleSolution(solution, algo);
+    }
+}
+
+void case2() {
+    bool loop = true;
+    while (loop) {
+        system("CLS");  // clear terminal
+
+        GraphGenerator generator;
+        int N, M, d1, d2;
+        std::string algo;
+
+        std::cout << "Enter size of first graph. size of second graph,\ndensity of first graph (from 0 to 100),\\
+ density of second graph(from 0 to 100) and number from 1 to 3:\\
+            \n1)both algorithms\n2)only exact algorithms\n3)only approximate algorithms\nex: 7 5 50 60 1" << std::endl;
+
+        std::cin >> N >> M >> d1 >> d2 >> algo;
+        auto graphs = generator.generateGraphs(N, M, d1, d2);
+
+        twoGraphs solution = twoGraphs(graphs);
+
+        loop = runSingleSolution(solution, algo);
+    }
+}
+
+bool is_number(const std::string& s) {
+    return !s.empty() && std::all_of(s.begin(), s.end(), ::isdigit);
+}
+
+void program() {
+    bool loop = true;
+
+    while (loop) {
+        system("CLS");  // clear terminal
+        std::cout << "Choose one of the above options\n";
+        std::cout << "1. Run program on the input file\n";
+        std::cout << "2. Run program on randomly generated graphs with chosen parameters\n";
+        std::cout << "3. Print graphs from our db\n";
+        std::cout << "0. Exit\n";
+        std::string input;
+        std::cin >> input;
+
+        if (!is_number(input)) {
+            continue;
         }
 
-        std::cout << "Do you want to test another graph? Type yes or y if so. ";
-        std::string ans;
-        std::cin >> ans;
-        if (ans != "yes" && ans != "y") {
+        switch (std::stoi(input))
+        {
+        case 1:
+            case1();
+            break;
+        case 2:
+            case2();
+            break;
+        case 0:
             loop = false;
+            break;
+        default:
+            break;
         }
     }
-
     std::system("pause");
 }
 
@@ -164,12 +288,78 @@ void perfTest2() {
     //}
 }
 
+void perfTests() {
+    GraphGenerator generator;
+
+    int iterations = 15;
+    std::vector<int> sizes;
+    std::vector<int> densities = { 20, 50, 80 };
+    bool computeExact = true;
+    int EXACT_N_TRESHHOLD = 8;
+
+    for (int i = 8; i < 9; i++) {
+        sizes.push_back(i);
+    }
+    /*for (int i = 160; i <= 160; i += 10) {
+        sizes.push_back(i);
+    }*/
+
+    for (int size : sizes) {
+        for (int i = 1; i < densities.size(); i++) {
+            int N = size;
+            int M = ceil(double(size) / 2);
+            int d1 = densities[i];
+            int d2 = densities[i - 1];
+
+            for (int w = 0; w < 4; w++) {
+                double resultApprox = 0.0;
+                double resultExact = 0.0;
+                if (w == 0) {
+                    M = ceil(double(size) / 3);
+                }
+                else if (w == 1) {
+                    if (ceil(double(size) / 2) == M)
+                        continue;
+                    M = ceil(double(size) / 2);
+                }
+                else if (w == 2) {
+                    if (ceil(double(size) / 3*2) == M)
+                        continue;
+                    M = ceil(double(size) / 3*2);
+                }
+                else if (w == 3) {
+                    M = N;
+                }
+                for (int k = 0; k < iterations; k++) {
+                    twoGraphs solution(generator.generateGraphs(N, M, d1, d2));
+                    solution.computeApproximateSolution();
+                    resultApprox += solution.approximateSolutionTime;
+                    if (N <= EXACT_N_TRESHHOLD && computeExact) {
+                        solution.computeExactSolution();
+                        resultExact += solution.exactSolutionTime;
+                    }
+                }
+                resultApprox /= (double)iterations;
+                resultExact /= (double)iterations;
+                std::cout << N << ";" << M << ";" << d1 << ";" << d2 << ";" << resultApprox;
+                if (N <= EXACT_N_TRESHHOLD && computeExact) {
+                    std::cout << ";" << resultExact;
+                }
+                std::cout << "\n";
+            }
+            //std::cout << "\n";
+        }
+        std::cout << "\n";
+    }
+}
+
 int main(int argc, char* argv[])
 {
-    perfTest2();
+    // perfTest2();
     // gen();
-    // program();
-    // menu();
+    //program();
+    // simpleCaseFromFile();
+    perfTests();
 }
 
 /*
