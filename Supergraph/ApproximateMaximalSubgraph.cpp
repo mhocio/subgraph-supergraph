@@ -13,14 +13,14 @@ ApproximateMaximalSubgraph::ApproximateMaximalSubgraph() {
 		graph2 = reader.graph1;
 		graph1 = reader.graph2;
 	}
-	modularGraph = std::vector<std::vector<int>>(graph1.size() * graph2.size(), std::vector<int>(graph1.size() * graph2.size(), 0));
+	modularGraph = std::vector<std::vector<unsigned __int8>>(graph1.size() * graph2.size(), std::vector<unsigned __int8>(graph1.size() * graph2.size(), 0));
 }
 
-ApproximateMaximalSubgraph::ApproximateMaximalSubgraph(std::vector<std::vector<int>> g1, std::vector<std::vector<int>> g2)
+ApproximateMaximalSubgraph::ApproximateMaximalSubgraph(std::vector<std::vector<unsigned __int8>> g1, std::vector<std::vector<unsigned __int8>> g2)
 {
 	graph1 = g1;
 	graph2 = g2;
-	modularGraph = std::vector<std::vector<int>>(graph1.size() * graph2.size(), std::vector<int>(graph1.size() * graph2.size(), 0));
+	modularGraph = std::vector<std::vector<unsigned __int8>>(graph1.size() * graph2.size(), std::vector<unsigned __int8>(graph1.size() * graph2.size(), 0));
 }
 
 void ApproximateMaximalSubgraph::getModularGraph() {
@@ -131,7 +131,7 @@ void ApproximateMaximalSubgraph::getMaximalCommonSubgraph() {
 	}
 	
 	// Build the maximal common subgraph.
-	maximalCommonSubgraph = std::vector<std::vector<int>>(n, std::vector<int>(n, 0));
+	maximalCommonSubgraph = std::vector<std::vector<unsigned __int8>>(n, std::vector<unsigned __int8>(n, 0));
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < n; ++j) {
 			// We project onto the second, smaller graph.
