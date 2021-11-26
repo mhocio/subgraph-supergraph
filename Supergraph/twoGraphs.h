@@ -42,6 +42,7 @@ public:
 
 	struct graphComarison_t compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2);
 	bool initialized();
+	bool readFromFfile;
 
 private:
 	twoGraphs();
@@ -60,7 +61,6 @@ private:
 
 	bool approximateComputed;
 	bool exactComputed;
-	bool readFromFfile;
 	bool editedSolutionAfterTwoAlgorithms;
 	graphComarison_t compareSupergraphs;
 	graphComarison_t compareSubgraphs;

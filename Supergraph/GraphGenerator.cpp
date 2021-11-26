@@ -59,8 +59,14 @@ std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> GraphGen
 }
 
 void GraphGenerator::writeGraphsToFile(std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> input, std::string filename) {
-	std::string basepath = "Examples/Generated/";
+	std::string basepath = "Examples/Tests/";
 	std::ofstream outfile(basepath + filename);
-	outfile << input.first.size() << std::endl << input.first << input.second.size() << std::endl << input.second;
-
+	if (!outfile.is_open()) {
+		std::cout << basepath + filename;
+		std::cout << " error creating file\n";
+	}
+	else {
+		outfile << input.first.size() << std::endl << input.first << input.second.size() << std::endl << input.second;
+	}
+	outfile.close();
 }

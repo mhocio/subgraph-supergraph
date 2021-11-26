@@ -64,6 +64,10 @@ std::string toLower(std::string data) {
     return data;
 }
 
+bool is_number(const std::string& s) {
+    return !s.empty() && std::all_of(s.begin(), s.end(), ::isdigit);
+}
+
 bool startswith(const std::string& str, const std::string& cmp="yes")
 {
     return cmp.compare(0, str.length(), str) == 0;
@@ -158,24 +162,26 @@ void case2() {
         system("CLS");  // clear terminal
 
         GraphGenerator generator;
-        int N, M, d1, d2;
-        std::string algo;
+        std::string N, M, d1, d2, algo;
 
         std::cout << "Enter size of first graph. size of second graph,\ndensity of first graph (from 0 to 100),\\
  density of second graph(from 0 to 100) and number from 1 to 3:\\
             \n1)both algorithms\n2)only exact algorithms\n3)only approximate algorithms\nex: 7 5 50 60 1" << std::endl;
 
         std::cin >> N >> M >> d1 >> d2 >> algo;
-        auto graphs = generator.generateGraphs(N, M, d1, d2);
 
-        twoGraphs solution = twoGraphs(graphs);
-
-        loop = runSingleSolution(solution, algo);
+        if (!is_number(N) || !is_number(M) || !is_number(d1) || !is_number(d2) || !is_number(algo)) {
+            std::cout << "Wrong input! (some parameter is not integer)\n";
+            twoGraphs solution({ {{}}, {{}} });
+            solution.readFromFfile = false;
+            loop = runSingleSolution(solution, algo);
+        }
+        else {
+            auto graphs = generator.generateGraphs(std::stoi(N), std::stoi(M), std::stoi(d1), std::stoi(d2));
+            twoGraphs solution = twoGraphs(graphs);
+            loop = runSingleSolution(solution, algo);
+        }
     }
-}
-
-bool is_number(const std::string& s) {
-    return !s.empty() && std::all_of(s.begin(), s.end(), ::isdigit);
 }
 
 void program() {
@@ -288,21 +294,21 @@ void perfTest2() {
     }
 }
 
-void perfTests() {
+void perfTests(bool writeToFile=false, bool computeAlgorithms=true) {
     GraphGenerator generator;
 
-    int iterations = 15;
+    int iterations = 10;
     std::vector<int> sizes;
     std::vector<int> densities = { 20, 50, 80 };
     bool computeExact = true;
     int EXACT_N_TRESHHOLD = 8;
 
-    for (int i = 8; i < 9; i++) {
+    for (int i = 8; i < 10; i++) {
         sizes.push_back(i);
     }
-    /*for (int i = 160; i <= 160; i += 10) {
+    for (int i = 10; i <= 190; i += 10) {
         sizes.push_back(i);
-    }*/
+    }
 
     for (int size : sizes) {
         for (int i = 1; i < densities.size(); i++) {
@@ -318,13 +324,9 @@ void perfTests() {
                     M = ceil(double(size) / 3);
                 }
                 else if (w == 1) {
-                    if (ceil(double(size) / 2) == M)
-                        continue;
                     M = ceil(double(size) / 2);
                 }
                 else if (w == 2) {
-                    if (ceil(double(size) / 3*2) == M)
-                        continue;
                     M = ceil(double(size) / 3*2);
                 }
                 else if (w == 3) {
@@ -332,12 +334,19 @@ void perfTests() {
                 }
                 for (int k = 0; k < iterations; k++) {
                     twoGraphs solution(generator.generateGraphs(N, M, d1, d2));
-                    solution.computeApproximateSolution();
+                    if (computeAlgorithms)
+                        solution.computeApproximateSolution();
                     resultApprox += solution.approximateSolutionTime;
                     if (N <= EXACT_N_TRESHHOLD && computeExact) {
-                        solution.computeExactSolution();
+                        if (computeAlgorithms)
+                            solution.computeExactSolution();
                         resultExact += solution.exactSolutionTime;
                     }
+                    if (writeToFile)
+                    generator.writeGraphsToFile({solution.graph1, solution.graph2}, 
+                        "test-" + std::to_string(N) + "-" + std::to_string(M) + "-" + 
+                        std::to_string(d1) + "-" + std::to_string(d2) + "_" +
+                        std::to_string(k) + ".txt");
                 }
                 resultApprox /= (double)iterations;
                 resultExact /= (double)iterations;
@@ -355,11 +364,9 @@ void perfTests() {
 
 int main(int argc, char* argv[])
 {
-    // perfTest2();
-    // gen();
-    //program();
-    // simpleCaseFromFile();
-    perfTests();
+    program();
+    //perfTests();  // run tests
+    //perfTests(true, false);  // generate test graph files to the folder
 }
 
 /*
