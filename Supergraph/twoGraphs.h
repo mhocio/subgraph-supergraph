@@ -26,6 +26,8 @@ public:
 	twoGraphs(std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> graphs);
 	void printSolution();
 	void printExecutionTime();
+	void printSeveralGraphsInOneLine(std::vector < std::pair < std::vector<std::vector<int>>, std::string >>);
+	void printSolutionNice();
 
 	std::vector<std::vector<int>> graph1;  // bigger
 	std::vector<std::vector<int>> graph2;  // smaller

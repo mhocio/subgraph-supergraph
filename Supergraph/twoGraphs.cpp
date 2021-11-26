@@ -112,7 +112,100 @@ void twoGraphs::printExecutionTime() {
 		std::cout << "Exact algorithm computed in " << exactSolutionTime << " seconds\n";
 }
 
+void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vector<std::vector<int>>, std::string >> graphs) {
+	int maxSize = 0;
+	int sum = 0;
+	for (auto graph : graphs) {
+		sum += graph.first.size();
+		if (graph.first.size() > maxSize) {
+			maxSize = graph.first.size();
+		}
+	}
 
+	// print labels
+	for (auto graph : graphs) {
+		std::cout << graph.second << " ";
+		if (graph.second.size() < graph.first.size() * 2) {
+			for (int i = 0; i < graph.first.size() * 2 - graph.second.size(); i++) {
+				std::cout << " ";
+			}
+		}
+	}
+	std::cout << "\n";
+
+	// print sizes
+	int k = 1;
+	for (auto graph : graphs) {
+		std::cout << graph.first.size();
+		auto a = std::to_string(graph.first.size()).length();
+
+		if (k < graphs.size()) {
+			for (int i = 0; i <= graph.first.size() - a; i++) {
+				std::cout << "  ";
+			}
+		}
+		
+		k++;
+	}
+	std::cout << "\n";
+
+	std::vector<int> rowsGraphNumber;
+	std::vector<int> graphsColumn;
+	int graphNo = 0;
+	for (auto graph : graphs) {
+		for (int i = 0; i < graph.first.size(); i++) {
+			rowsGraphNumber.push_back(graphNo);
+			graphsColumn.push_back(i);
+		}
+		if (graphNo < (graphs.size() - 1)) {
+			rowsGraphNumber.push_back(-1);  // break between graphs
+			graphsColumn.push_back(-1);
+		}
+		graphNo++;
+	}
+
+	graphNo = 0;
+
+	// print lines
+	for (int i = 0; i < maxSize; i++) {
+		// print rows
+		graphNo = 0;
+		for (int j = 0; j < sum + graphs.size() - 1; j++) {
+			if (i < graphs[graphNo].first.size()) {
+				if (rowsGraphNumber[j] != -1) {
+					std::cout << graphs[rowsGraphNumber[j]].first[i][graphsColumn[j]] << " ";
+				}
+				else {
+					std::cout << " ";  // break between graphs
+					graphNo++;
+				}
+			}
+			else {
+				std::cout << " ";
+				if (rowsGraphNumber[j] != -1) {
+					std::cout << " ";
+				}
+				else {
+					graphNo++;  // break between graphs
+				}
+			}
+		}
+		std::cout << "\n";
+	}
+}
+
+void twoGraphs::printSolutionNice() {
+	std::cout << "\nINPUT\n";
+	printSeveralGraphsInOneLine({ {graph1, "graph1"}, {graph2, "graph2"} });
+	if (exactComputed) {
+		std::cout << "\nEXACT ALGORITHM\n";
+		printSeveralGraphsInOneLine({ {exactMinimalSupergraph, "exactMinimalSupergraph"}, {exactMaximalSubgraph, "exactMaximalSubgraph"} });
+	}
+	if (approximateComputed) {
+		std::cout << "\nAPPROXIMATE ALGORITHM\n";
+		printSeveralGraphsInOneLine({ {approximateMinimalSupergraph, "approximateMinimalSupergraph"}, {approximateMaximalSubgraph, "approximateMaximalSubgraph"} });
+	}
+}
 
 void twoGraphs::printSolution()
 {
