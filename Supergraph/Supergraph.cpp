@@ -184,6 +184,59 @@ void case2() {
     }
 }
 
+void case3() {
+    std::cout << "Graphs which can be used:\n";
+    std::cout << "Graphs used for testing (where i is from o to 9):\n";
+    std::vector<int> sizes;
+    std::vector<int> densities = { 20, 50, 80 };
+    bool computeExact = true;
+    int EXACT_N_TRESHHOLD = 8;
+
+    for (int i = 8; i < 10; i++) {
+        sizes.push_back(i);
+    }
+    for (int i = 10; i <= 190; i += 10) {
+        sizes.push_back(i);
+    }
+
+    for (int size : sizes) {
+        for (int i = 1; i < densities.size(); i++) {
+            int N = size;
+            int M = ceil(double(size) / 2);
+            int d1 = densities[i];
+            int d2 = densities[i - 1];
+
+            for (int w = 0; w < 4; w++) {
+                double resultApprox = 0.0;
+                double resultExact = 0.0;
+                if (w == 0) {
+                    M = ceil(double(size) / 3);
+                }
+                else if (w == 1) {
+                    M = ceil(double(size) / 2);
+                }
+                else if (w == 2) {
+                    M = ceil(double(size) / 3 * 2);
+                }
+                else if (w == 3) {
+                    M = N;
+                }
+                std::cout << "Tests/test-" + std::to_string(N) + "-" + std::to_string(M) + "-" +
+                    std::to_string(d1) + "-" + std::to_string(d2) + "_" +
+                    "i" + ".txt\n";
+            }
+        }
+    }
+
+    std::cout << "Predefined inputs:\n";
+    for (int i = 1; i <= 11; i++) {
+        std::cout << "input" << std::to_string(i) << ".txt\n";
+    }
+
+    std::system("pause");
+                //N, M, d1, d2
+}
+
 void program() {
     bool loop = true;
 
@@ -208,6 +261,9 @@ void program() {
             break;
         case 2:
             case2();
+            break;
+        case 3:
+            case3();
             break;
         case 0:
             loop = false;
