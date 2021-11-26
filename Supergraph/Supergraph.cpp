@@ -291,18 +291,18 @@ void perfTest2() {
 void perfTests() {
     GraphGenerator generator;
 
-    int iterations = 15;
+    int iterations = 4;
     std::vector<int> sizes;
     std::vector<int> densities = { 20, 50, 80 };
     bool computeExact = true;
     int EXACT_N_TRESHHOLD = 8;
 
-    for (int i = 8; i < 9; i++) {
-        sizes.push_back(i);
-    }
-    /*for (int i = 160; i <= 160; i += 10) {
+    /*for (int i = 3; i < 10; i++) {
         sizes.push_back(i);
     }*/
+    for (int i = 170; i <= 220; i += 10) {
+        sizes.push_back(i);
+    }
 
     for (int size : sizes) {
         for (int i = 1; i < densities.size(); i++) {
@@ -318,13 +318,9 @@ void perfTests() {
                     M = ceil(double(size) / 3);
                 }
                 else if (w == 1) {
-                    if (ceil(double(size) / 2) == M)
-                        continue;
                     M = ceil(double(size) / 2);
                 }
                 else if (w == 2) {
-                    if (ceil(double(size) / 3*2) == M)
-                        continue;
                     M = ceil(double(size) / 3*2);
                 }
                 else if (w == 3) {

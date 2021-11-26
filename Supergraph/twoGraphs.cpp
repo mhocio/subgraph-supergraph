@@ -112,7 +112,7 @@ void twoGraphs::printExecutionTime() {
 		std::cout << "Exact algorithm computed in " << exactSolutionTime << " seconds\n";
 }
 
-void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vector<std::vector<int>>, std::string >> graphs) {
+void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vector<std::vector<unsigned __int8>>, std::string >> graphs) {
 	int maxSize = 0;
 	int sum = 0;
 	for (auto graph : graphs) {
