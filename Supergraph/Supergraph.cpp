@@ -72,7 +72,9 @@ void program() {
         if (solution.initialized()) {
             solution.computeApproximateSolution();
             solution.computeExactSolution();
-            solution.printSolution();
+            solution.printSolutionNice();
+
+            //solution.printSeveralGraphsInOneLine({ {solution.graph2, "graph2"} , {solution.graph1, "graph1"}, {solution.graph2, "graph2"} });
         }
         else {
             std::cout << "Could not read the file.\n";
@@ -166,9 +168,9 @@ void perfTest2() {
 
 int main(int argc, char* argv[])
 {
-    perfTest2();
+    // perfTest2();
     // gen();
-    // program();
+    program();
     // menu();
 }
 
