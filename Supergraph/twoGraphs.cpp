@@ -54,7 +54,7 @@ twoGraphs::twoGraphs(std::string inputFile)
 
 bool twoGraphs::initialized()
 {
-	if (readFromFfile || (graph1.size() && graph2.size()))
+	if (readFromFfile && (graph1.size() && graph2.size()))
 		return true;
 	return false;
 }
