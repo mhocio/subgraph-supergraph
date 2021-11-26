@@ -9,19 +9,19 @@ class ExactSubgraph
 {
 public:
 	ExactSubgraph();
-	ExactSubgraph(std::vector<std::vector<int>>, std::vector<std::vector<int>>);
+	ExactSubgraph(std::vector<std::vector<unsigned __int8>>, std::vector<std::vector<unsigned __int8>>);
 	void generateMaximalCommonSubgraph();
-	std::vector<std::pair<std::vector<int>, std::vector<int> > > getPermutationsOfSize(int size);
-	std::vector<std::vector<int>> generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> >, std::vector<std::vector<int>>);
-	int compareOverlayGraphs(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG);
-	int compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG);
+	std::vector<std::pair<std::vector<unsigned __int8>, std::vector<unsigned __int8> > > getPermutationsOfSize(int size);
+	std::vector<std::vector<unsigned __int8>> generateReorderedGraph(std::pair<std::vector<unsigned __int8>, std::vector<unsigned __int8> >, std::vector<std::vector<unsigned __int8>>);
+	int compareOverlayGraphs(std::vector<std::vector<unsigned __int8>> bigG, std::vector<std::vector<unsigned __int8>> smallG);
+	int compareOverlayGraphsForSupergraph(std::vector<std::vector<unsigned __int8>> bigG, std::vector<std::vector<unsigned __int8>> smallG);
 
-	std::vector<std::vector<int>> generateSuperGraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG);
+	std::vector<std::vector<unsigned __int8>> generateSuperGraph(std::vector<std::vector<unsigned __int8>> bigG, std::vector<std::vector<unsigned __int8>> smallG);
 
-	std::vector<std::vector<int>> graph1;
-	std::vector<std::vector<int>> graph2;
-	std::vector<std::vector<int>> maximalCommonSubgraph;
-	std::vector<std::vector<int>> minimalSupergraph;
+	std::vector<std::vector<unsigned __int8>> graph1;
+	std::vector<std::vector<unsigned __int8>> graph2;
+	std::vector<std::vector<unsigned __int8>> maximalCommonSubgraph;
+	std::vector<std::vector<unsigned __int8>> minimalSupergraph;
 
 	static int _count;
 };

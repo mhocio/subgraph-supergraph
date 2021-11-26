@@ -9,6 +9,6 @@ public:
 	int readInput(const char* filename);
 	
 
-	std::vector<std::vector<int> > graph1, graph2;
+	std::vector<std::vector<unsigned __int8> > graph1, graph2;
 };
 
