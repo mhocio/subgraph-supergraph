@@ -288,12 +288,78 @@ void perfTest2() {
     }
 }
 
+void perfTests() {
+    GraphGenerator generator;
+
+    int iterations = 15;
+    std::vector<int> sizes;
+    std::vector<int> densities = { 20, 50, 80 };
+    bool computeExact = true;
+    int EXACT_N_TRESHHOLD = 8;
+
+    for (int i = 8; i < 9; i++) {
+        sizes.push_back(i);
+    }
+    /*for (int i = 160; i <= 160; i += 10) {
+        sizes.push_back(i);
+    }*/
+
+    for (int size : sizes) {
+        for (int i = 1; i < densities.size(); i++) {
+            int N = size;
+            int M = ceil(double(size) / 2);
+            int d1 = densities[i];
+            int d2 = densities[i - 1];
+
+            for (int w = 0; w < 4; w++) {
+                double resultApprox = 0.0;
+                double resultExact = 0.0;
+                if (w == 0) {
+                    M = ceil(double(size) / 3);
+                }
+                else if (w == 1) {
+                    if (ceil(double(size) / 2) == M)
+                        continue;
+                    M = ceil(double(size) / 2);
+                }
+                else if (w == 2) {
+                    if (ceil(double(size) / 3*2) == M)
+                        continue;
+                    M = ceil(double(size) / 3*2);
+                }
+                else if (w == 3) {
+                    M = N;
+                }
+                for (int k = 0; k < iterations; k++) {
+                    twoGraphs solution(generator.generateGraphs(N, M, d1, d2));
+                    solution.computeApproximateSolution();
+                    resultApprox += solution.approximateSolutionTime;
+                    if (N <= EXACT_N_TRESHHOLD && computeExact) {
+                        solution.computeExactSolution();
+                        resultExact += solution.exactSolutionTime;
+                    }
+                }
+                resultApprox /= (double)iterations;
+                resultExact /= (double)iterations;
+                std::cout << N << ";" << M << ";" << d1 << ";" << d2 << ";" << resultApprox;
+                if (N <= EXACT_N_TRESHHOLD && computeExact) {
+                    std::cout << ";" << resultExact;
+                }
+                std::cout << "\n";
+            }
+            //std::cout << "\n";
+        }
+        std::cout << "\n";
+    }
+}
+
 int main(int argc, char* argv[])
 {
     // perfTest2();
     // gen();
-    program();
+    //program();
     // simpleCaseFromFile();
+    perfTests();
 }
 
 /*
