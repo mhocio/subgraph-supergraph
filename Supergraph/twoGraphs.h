@@ -43,6 +43,15 @@ public:
 	struct graphComarison_t compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2);
 	bool initialized();
 
+	std::vector<std::vector<int>> getExactMaximalSubgraph();
+
+	std::vector<std::vector<int>> getExactMinimalSupergraph();
+
+	std::vector<std::vector<int>> getApproximateMaximalSubgraph();
+
+	std::vector<std::vector<int>> getApproximateMinimalSupergraph();
+
+
 private:
 	twoGraphs();
 

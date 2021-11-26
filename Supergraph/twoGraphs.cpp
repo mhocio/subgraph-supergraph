@@ -349,3 +349,19 @@ void twoGraphs::computeApproximateSolution()
 		editSolutionAfterTwoAlgorithms();
 	}
 }
+
+std::vector<std::vector<int>> twoGraphs::getExactMaximalSubgraph() {
+	return exactMaximalSubgraph;
+};
+
+std::vector<std::vector<int>> twoGraphs::getExactMinimalSupergraph() {
+	return exactMinimalSupergraph;
+};
+
+std::vector<std::vector<int>> twoGraphs::getApproximateMaximalSubgraph() {
+	return approximateMaximalSubgraph;
+};
+
+std::vector<std::vector<int>> twoGraphs::getApproximateMinimalSupergraph() {
+	return approximateMinimalSupergraph;
+};

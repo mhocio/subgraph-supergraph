@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31229.75
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Supergraph", "Supergraph\Supergraph.vcxproj", "{7026F338-E939-4563-B2AF-986AF0366DA3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Supergraph-Test", "Supergraph-Test\Supergraph-Test.vcxproj", "{D1163A59-252D-4C9D-9B1B-3757AB113781}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{7026F338-E939-4563-B2AF-986AF0366DA3}.Release|x64.Build.0 = Release|x64
 		{7026F338-E939-4563-B2AF-986AF0366DA3}.Release|x86.ActiveCfg = Release|Win32
 		{7026F338-E939-4563-B2AF-986AF0366DA3}.Release|x86.Build.0 = Release|Win32
+		{D1163A59-252D-4C9D-9B1B-3757AB113781}.Debug|x64.ActiveCfg = Debug|x64
+		{D1163A59-252D-4C9D-9B1B-3757AB113781}.Debug|x64.Build.0 = Debug|x64
+		{D1163A59-252D-4C9D-9B1B-3757AB113781}.Debug|x86.ActiveCfg = Debug|Win32
+		{D1163A59-252D-4C9D-9B1B-3757AB113781}.Debug|x86.Build.0 = Debug|Win32
+		{D1163A59-252D-4C9D-9B1B-3757AB113781}.Release|x64.ActiveCfg = Release|x64
+		{D1163A59-252D-4C9D-9B1B-3757AB113781}.Release|x64.Build.0 = Release|x64
+		{D1163A59-252D-4C9D-9B1B-3757AB113781}.Release|x86.ActiveCfg = Release|Win32
+		{D1163A59-252D-4C9D-9B1B-3757AB113781}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
