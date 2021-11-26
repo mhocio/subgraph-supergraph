@@ -140,8 +140,10 @@ void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vecto
 		auto a = std::to_string(graph.first.size()).length();
 
 		if (k < graphs.size()) {
-			for (int i = 0; i <= graph.first.size() - a; i++) {
-				std::cout << "  ";
+			if (graph.first.size() > a) {
+				for (int i = 0; i <= graph.first.size() - a; i++) {
+					std::cout << "  ";
+				}
 			}
 		}
 		
@@ -197,12 +199,32 @@ void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vecto
 void twoGraphs::printSolutionNice() {
 	std::cout << "\nINPUT\n";
 	printSeveralGraphsInOneLine({ {graph1, "graph1"}, {graph2, "graph2"} });
+
+	if (exactComputed && approximateComputed && editedSolutionAfterTwoAlgorithms) {
+		std::cout << "\n";
+		if (compareSupergraphs.correctMappingFound) {
+			std::cout << "Supergraphs of two algorithms are same!\n";
+		}
+		else {
+			std::cout << "Supergraphs of two algorithms are NOT same... ";
+			printGraphComarison_t(compareSupergraphs);
+		}
+
+		if (compareSubgraphs.correctMappingFound) {
+			std::cout << "Common subgraphs of two algorithms are same!\n";
+		}
+		else {
+			std::cout << "Common subgraphs of two algorithms are NOT same... ";
+			printGraphComarison_t(compareSubgraphs);
+		}
+	}
+
 	if (exactComputed) {
-		std::cout << "\nEXACT ALGORITHM\n";
+		std::cout << "\nEXACT ALGORITHM computed in " << exactSolutionTime << " seconds\n";;
 		printSeveralGraphsInOneLine({ {exactMinimalSupergraph, "exactMinimalSupergraph"}, {exactMaximalSubgraph, "exactMaximalSubgraph"} });
 	}
 	if (approximateComputed) {
-		std::cout << "\nAPPROXIMATE ALGORITHM\n";
+		std::cout << "\nAPPROXIMATE ALGORITHM computed in " << approximateSolutionTime << " seconds\n";;
 		printSeveralGraphsInOneLine({ {approximateMinimalSupergraph, "approximateMinimalSupergraph"}, {approximateMaximalSubgraph, "approximateMaximalSubgraph"} });
 	}
 }

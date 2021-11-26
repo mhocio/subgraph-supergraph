@@ -7,6 +7,7 @@ ApproximateMinimalSupergraph::ApproximateMinimalSupergraph()
 
 ApproximateMinimalSupergraph::ApproximateMinimalSupergraph(ApproximateMaximalSubgraph _approx) {
 	approx = _approx;
+	//approx.modularGraph.clear();
 }
 
 void ApproximateMinimalSupergraph::getEmbedding() {
