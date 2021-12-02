@@ -104,14 +104,18 @@ void twoGraphs::editSolutionAfterTwoAlgorithms() {
 			approximateMinimalSupergraph = compareSupergraphs.bestGraph;
 		}
 
-		compareSubgraphs = compareGraphs(exactMaximalSubgraph, approximateMaximalSubgraph);
+		compareSubgraphs = compareGraphs(approximateMaximalSubgraph, exactMaximalSubgraph);
 		// change the bigger graph to be simillar to the smaller one
 		if (!compareSubgraphs.correctMappingFound) {
-			if (exactMaximalSubgraph.size() >= approximateMaximalSubgraph.size()) {
-				exactMaximalSubgraph = compareSubgraphs.bestGraph;
+			if (exactMaximalSubgraph.size() > approximateMaximalSubgraph.size()) {
+				exactMaximalSubgraphReordered = compareSubgraphs.bestGraph;
+				exactMaximalSubgraphReordered_b = true;
+				approximateMaximalSubgraphReordered_b = false;
 			}
 			else {
-				approximateMaximalSubgraph = compareSubgraphs.bestGraph;
+				approximateMaximalSubgraphReordered = compareSubgraphs.bestGraph;
+				approximateMaximalSubgraphReordered_b = true;
+				exactMaximalSubgraphReordered_b = false;
 			}
 		}
 
@@ -262,7 +266,15 @@ void twoGraphs::printSolutionNice() {
 		std::cout << "\n";
 		printWithColor("=== EXACT ALGORITHM computed in " + std::to_string(exactSolutionTime) + " seconds ===", true);
 
-		printSeveralGraphsInOneLine({ {exactAlgorithm.reorderedGraphForSubgraph, "Reordered bigger (first) graph for finding the maximal common induced subgraph"} , {exactMaximalSubgraph, "exactMaximalSubgraph"} });
+		std::vector < std::pair < std::vector<std::vector<int>>, std::string >> graphsToPrint =
+		{ {exactAlgorithm.reorderedGraphForSubgraph, "Reordered bigger (first) graph for finding the maximal common induced subgraph"} ,
+			{exactMaximalSubgraph, "exactMaximalSubgraph"} };
+
+		if (exactMaximalSubgraphReordered_b) {
+			graphsToPrint.push_back({ exactMaximalSubgraphReordered , {"reordered subgraph to compare with approximate result"}});
+		}
+
+		printSeveralGraphsInOneLine(graphsToPrint);
 		printPermChanges(exactAlgorithm.permOfBiggerGraphForSubgraph);
 		std::cout << "\n\n";
 		
