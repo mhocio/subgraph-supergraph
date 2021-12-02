@@ -1,8 +1,20 @@
 #include "twoGraphs.h"
 
-void printGraphComarison_t(graphComarison_t g) {
-	std::cout << "Number of missing edges: " << g.missingEdges;
-	std::cout << " Number of redundant edges: " << g.redundantEdges << "\n";
+void printGraphComarison_t(graphComarison_t g, bool printReverse=false) {
+	// printReverse to true is used when the first and changed graph is the graph
+	// computed with approx algorithm, which means that we counted missing and redundant edges
+	// of the exact graph in comparison to the approximated one.
+	// Therefore if we want to print still the information of missing edges of approx graph in respect to
+	// the exact graph we need to print no of redundant edges (if an edge was redundant in exact graph
+	// then it is really missing in approx) in that case.
+	if (!printReverse) {
+		std::cout << "Number of missing edges: " << g.missingEdges;
+		std::cout << " Number of redundant edges: " << g.redundantEdges << "\n";
+	}
+	else {
+		std::cout << "Number of missing edges: " << g.redundantEdges;
+		std::cout << " Number of redundant edges: " << g.missingEdges << "\n";
+	}
 }
 
 twoGraphs::twoGraphs()
@@ -78,16 +90,18 @@ void twoGraphs::printGraph(std::vector<std::vector<int>> G)
 
 void twoGraphs::editSolutionAfterTwoAlgorithms() {
 	if (exactComputed && approximateComputed) {
-		compareSupergraphs = compareGraphs(exactMinimalSupergraph, approximateMinimalSupergraph);
+		compareSupergraphs = compareGraphs(approximateMinimalSupergraph, exactMinimalSupergraph);
 		// change the bigger graph to be simillar to the smaller one
 		// as they were different and we try to show how much similar they are
 		if (!compareSupergraphs.correctMappingFound) {
-			if (exactMinimalSupergraph.size() >= approximateMinimalSupergraph.size()) {
+			/*/if (exactMinimalSupergraph.size() >= approximateMinimalSupergraph.size()) {
 				exactMinimalSupergraph = compareSupergraphs.bestGraph;
 			}
 			else {
 				approximateMinimalSupergraph = compareSupergraphs.bestGraph;
-			}
+			}*/
+			// supergraphs are of the same size
+			approximateMinimalSupergraph = compareSupergraphs.bestGraph;
 		}
 
 		compareSubgraphs = compareGraphs(exactMaximalSubgraph, approximateMaximalSubgraph);
@@ -123,10 +137,14 @@ void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vecto
 	}
 
 	// print labels
+	int i = 1;
 	for (auto graph : graphs) {
-		std::cout << graph.second << " ";
-		if (graph.second.size() < graph.first.size() * 2) {
-			for (int i = 0; i < graph.first.size() * 2 - graph.second.size(); i++) {
+		std::cout << "[" << graph.second << "]";
+		if (i++ < graphs.size()) {
+			std::cout << "; ";
+		}
+		if (graph.second.size() < graph.first.size() * 2 - 3) {
+			for (int i = 0; i < graph.first.size() * 2 - graph.second.size() - 3; i++) {
 				std::cout << " ";
 			}
 		}
@@ -137,12 +155,12 @@ void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vecto
 	int k = 1;
 	for (auto graph : graphs) {
 		std::cout << graph.first.size();
-		auto a = std::to_string(graph.first.size()).length();
+		auto a = std::to_string(graph.first.size() + 1).length();
 
 		if (k < graphs.size()) {
 			if (graph.first.size() > a) {
-				for (int i = 0; i <= graph.first.size() - a; i++) {
-					std::cout << "  ";
+				for (int i = 0; i <= graph.first.size() * 2 - a; i++) {
+					std::cout << " ";
 				}
 			}
 		}
@@ -196,9 +214,67 @@ void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vecto
 	}
 }
 
+void printWithColor(std::string s, bool endWithNewLine=false, int color = 31) {
+	/*
+	*   Name            FG  BG
+		Black           30  40
+		Red             31  41
+		Green           32  42
+		Yellow          33  43
+		Blue            34  44
+		Magenta         35  45
+		Cyan            36  46
+		White           37  47
+		Bright Black    90  100
+		Bright Red      91  101
+		Bright Green    92  102
+		Bright Yellow   93  103
+		Bright Blue     94  104
+		Bright Magenta  95  105
+		Bright Cyan     96  106
+		Bright White    97  107
+	*/
+	std::cout << "\x1B[" <<color << "m" << s << "\033[0m\t\t";
+	if (endWithNewLine) {
+		std::cout << "\n";
+	}
+}
+
+void printPermChanges(std::pair<std::vector<int>, std::vector<int> > perm, std::string nameOfGraph="subgraph") {
+	std::cout << "Reordered vertices of the bigger graph for computing " << nameOfGraph << ", number of the first vertex is 1 (after remapping->original number) : \n";
+	int i = 1;
+	for (auto v : perm.first) {
+		std::cout << "(" << i++ << " -> " << v + 1 << ")";
+		if (i < perm.first.size() + 1) {
+			std::cout << ", ";
+		}
+	}
+}
+
 void twoGraphs::printSolutionNice() {
-	std::cout << "\nINPUT\n";
+	printWithColor("=== INPUT ===", true);
+	//std::cout << "\n=== INPUT ===\n";
+	//std::cout << "\x1B[31mTexting\033[0m\t\t\n";
+
 	printSeveralGraphsInOneLine({ {graph1, "graph1"}, {graph2, "graph2"} });
+
+	if (exactComputed) {
+		std::cout << "\n";
+		printWithColor("=== EXACT ALGORITHM computed in " + std::to_string(exactSolutionTime) + " seconds ===", true);
+
+		printSeveralGraphsInOneLine({ {exactAlgorithm.reorderedGraphForSubgraph, "Reordered bigger (first) graph for finding the maximal common induced subgraph"} , {exactMaximalSubgraph, "exactMaximalSubgraph"} });
+		printPermChanges(exactAlgorithm.permOfBiggerGraphForSubgraph);
+		std::cout << "\n\n";
+		
+		printSeveralGraphsInOneLine({ {exactAlgorithm.reorderedGraphForSupergraph, "Reordered bigger graph for finding the minimal supergraph"}, {exactAlgorithm.smallGraphCandidateForSupergraph, "smallGraphCandidateForSupergraph"} ,{exactMinimalSupergraph, "exactMinimalSupergraph"}});
+		printPermChanges(exactAlgorithm.permOfBiggerGraphForSupergraph, "supergraph");
+		std::cout << "\n\n";
+	}
+	if (approximateComputed) {
+		std::cout << "\n";
+		printWithColor("=== APPROXIMATE ALGORITHM computed in " + std::to_string(approximateSolutionTime) + " seconds ===", true);
+		printSeveralGraphsInOneLine({ {approximateMinimalSupergraph, "approximateMinimalSupergraph"}, {approximateMaximalSubgraph, "approximateMaximalSubgraph"} });
+	}
 
 	if (exactComputed && approximateComputed && editedSolutionAfterTwoAlgorithms) {
 		std::cout << "\n";
@@ -207,7 +283,7 @@ void twoGraphs::printSolutionNice() {
 		}
 		else {
 			std::cout << "Supergraphs of two algorithms are NOT same... ";
-			printGraphComarison_t(compareSupergraphs);
+			printGraphComarison_t(compareSupergraphs, true);
 		}
 
 		if (compareSubgraphs.correctMappingFound) {
@@ -217,15 +293,6 @@ void twoGraphs::printSolutionNice() {
 			std::cout << "Common subgraphs of two algorithms are NOT same... ";
 			printGraphComarison_t(compareSubgraphs);
 		}
-	}
-
-	if (exactComputed) {
-		std::cout << "\nEXACT ALGORITHM computed in " << exactSolutionTime << " seconds\n";;
-		printSeveralGraphsInOneLine({ {exactMinimalSupergraph, "exactMinimalSupergraph"}, {exactMaximalSubgraph, "exactMaximalSubgraph"} });
-	}
-	if (approximateComputed) {
-		std::cout << "\nAPPROXIMATE ALGORITHM computed in " << approximateSolutionTime << " seconds\n";;
-		printSeveralGraphsInOneLine({ {approximateMinimalSupergraph, "approximateMinimalSupergraph"}, {approximateMaximalSubgraph, "approximateMaximalSubgraph"} });
 	}
 }
 

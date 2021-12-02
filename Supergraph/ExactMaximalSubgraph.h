@@ -20,8 +20,15 @@ public:
 
 	std::vector<std::vector<int>> graph1;
 	std::vector<std::vector<int>> graph2;
+
 	std::vector<std::vector<int>> maximalCommonSubgraph;
+	std::vector<std::vector<int>> reorderedGraphForSubgraph;
+	std::pair<std::vector<int>, std::vector<int> > permOfBiggerGraphForSubgraph;
+
 	std::vector<std::vector<int>> minimalSupergraph;
+	std::vector<std::vector<int>> reorderedGraphForSupergraph;
+	std::vector<std::vector<int>> smallGraphCandidateForSupergraph;
+	std::pair<std::vector<int>, std::vector<int> > permOfBiggerGraphForSupergraph;
 
 	static int _count;
 };

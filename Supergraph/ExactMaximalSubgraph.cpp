@@ -220,6 +220,8 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 			if (numOfEdges > maxNumberOfEdges) {
 				maxNumberOfEdges = numOfEdges;
 				maximalCommonSubgraph = smallGraphCandidate;
+				reorderedGraphForSubgraph = reorderedGraph;
+				permOfBiggerGraphForSubgraph = permOfBiggerGraph;
 			}
 
 			// compute minimal Supergraph
@@ -229,6 +231,9 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 				if (numberOfEdgesForSupergraph >= 0 && numberOfEdgesForSupergraph < minNumberOfEdgesForSupergraph) {
 					minNumberOfEdgesForSupergraph = numberOfEdgesForSupergraph;
 					minimalSupergraph = generateSuperGraph(reorderedGraph, smallGraphCandidate);
+					reorderedGraphForSupergraph = reorderedGraph;
+					smallGraphCandidateForSupergraph = smallGraphCandidate;
+					permOfBiggerGraphForSupergraph = permOfBiggerGraph;
 				}
 
 				/*if (graph1.size() == graph2.size()) {
