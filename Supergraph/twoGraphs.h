@@ -49,11 +49,15 @@ private:
 
 	ExactSubgraph exactAlgorithm;
 	std::vector<std::vector<int>> exactMaximalSubgraph;
+	std::vector<std::vector<int>> exactMaximalSubgraphReordered;
+	bool exactMaximalSubgraphReordered_b;
 	std::vector<std::vector<int>> exactMinimalSupergraph;
 
 	ApproximateMaximalSubgraph approximateMaximalSubgraphAlgorithm;
 	ApproximateMinimalSupergraph approximateMinimalSupergraphAlgorithm;
 	std::vector<std::vector<int>> approximateMaximalSubgraph;
+	std::vector<std::vector<int>> approximateMaximalSubgraphReordered;
+	bool approximateMaximalSubgraphReordered_b;
 	std::vector<std::vector<int>> approximateMinimalSupergraph;
 
 	void printGraph(std::vector<std::vector<int>>);

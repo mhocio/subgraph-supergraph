@@ -37,10 +37,19 @@ void generateIsomorphicAndWrite(int numberOfGraphs, int n, int density) {
     for (int i = 0; i < numberOfGraphs; i++) {
         graphs = generator.generateIsomorphicGraphs(n, density);
         generator.writeGraphsToFile(graphs,
-            "gen_iso" +
-            std::to_string(n) + "-" +
-            std::to_string(density) + "__" +
-            std::to_string(i) + ".txt");
+            "iso_" +
+            std::to_string(n) + "_" +
+            std::to_string(density) + ".txt");
+    }
+}
+
+void genSeveralIsomorphicAndWrite() {
+    for (int i = 3; i <= 10; i++) {
+        generateIsomorphicAndWrite(1, i, 50);
+    }
+
+    for (int i = 20; i <= 150; i+=10) {
+        generateIsomorphicAndWrite(1, i, 50);
     }
 }
 
@@ -53,6 +62,7 @@ void gen() {
     //generateAndWrite(100, 60, 30, 40, 40);
     //generateAndWrite(100, 80, 40, 40, 40);
     //generateAndWrite(100, 100, 50, 40, 40);
+    genSeveralIsomorphicAndWrite();
     std::string base_path = "Examples/";
     std::string filename;
 }
@@ -436,6 +446,7 @@ void perfTests(bool writeToFile=false, bool computeAlgorithms=true) {
 int main(int argc, char* argv[])
 {
     program();
+    //gen();
     //perfTests();  // run tests
     //perfTests(true, false);  // generate test graph files to the folder
 }
