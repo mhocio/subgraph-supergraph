@@ -73,7 +73,7 @@ std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> GraphGen
 	}
 	
 	// 5 9 4 1 0 ...
-	std::random_shuffle(permutation.begin(), permutation.end());
+	std::shuffle(permutation.begin(), permutation.end(), gen);
 
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < i; j++) {
