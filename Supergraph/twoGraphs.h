@@ -26,7 +26,9 @@ public:
 	twoGraphs(std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> graphs);
 	void printSolution();
 	void printExecutionTime();
-	void printSeveralGraphsInOneLine(std::vector < std::pair < std::vector<std::vector<int>>, std::string >>);
+	void printSeveralGraphsInOneLine(std::vector < std::pair < std::vector<std::vector<int>>, 
+		std::string >> graphs, std::vector<std::pair<int, int> > colors, int color, 
+		std::vector<int> coloredLabels);
 	void printSolutionNice();
 
 	std::vector<std::vector<int>> graph1;  // bigger
@@ -40,7 +42,8 @@ public:
 	void computeApproximateSolution();
 	double approximateSolutionTime;
 
-	struct graphComarison_t compareGraphs(std::vector<std::vector<int>> G1, std::vector<std::vector<int>> G2);
+	struct graphComarison_t compareGraphs(std::vector<std::vector<int>> G1, 
+		std::vector<std::vector<int>> G2);
 	bool initialized();
 	bool readFromFfile;
 
