@@ -139,8 +139,9 @@ int ExactSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> bigG, std:
 
 // return -1 if small graph do not overlap on the bigger one
 // return number of edges of the smaller graph otherwise
-std::pair<int, bool> ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
+graphComarisonInducedSupergraph_t ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
 	int count = 0;
+	int overlappingEdges = 0;
 	bool induced = true;
 	for (int i = 0; i < smallG.size(); i++) {
 		for (int j = 0; j < smallG.size(); j++) {
@@ -161,6 +162,9 @@ std::pair<int, bool> ExactSubgraph::compareOverlayGraphsForSupergraph(std::vecto
 
 				count++; // add that edge
 			}
+			else {
+				overlappingEdges++;
+			}
 		}
 	}
 
@@ -176,7 +180,12 @@ std::pair<int, bool> ExactSubgraph::compareOverlayGraphsForSupergraph(std::vecto
 		}
 	}
 
-	return std::make_pair(count, induced);
+	graphComarisonInducedSupergraph_t ret;
+	ret.count = count;
+	ret.induced = induced;
+	ret.overlappingEdges = overlappingEdges;
+
+	return ret;
 }
 
 std::vector<std::vector<int>> ExactSubgraph::generateSuperGraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
@@ -260,6 +269,7 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 	int maxNumberOfEdges = -1;  // for maximal subgraph
 	int minNumberOfEdgesForSupergraph = 1000000;  // for minimal supergraph
 
+	int maxNumberOfEdgesForInducedSupergraph = 0;
 	int maxNumberOfVerticesForInducedSupergraph = 0;
 
 	std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
@@ -282,7 +292,7 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 
 			// compute minimal Supergraph
 			auto numberOfEdgesForSupergraph = compareOverlayGraphsForSupergraph(reorderedGraph, smallGraphCandidate);
-			int num = numberOfEdgesForSupergraph.first;
+			int num = numberOfEdgesForSupergraph.count;
 
 			if (smallGraphCandidate.size() == graph2.size() && num >= 0 && num < minNumberOfEdgesForSupergraph) {
 				minNumberOfEdgesForSupergraph = num;
@@ -290,17 +300,19 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 				reorderedGraphForSupergraph = reorderedGraph;
 				smallGraphCandidateForSupergraph = smallGraphCandidate;
 				permOfBiggerGraphForSupergraph = permOfBiggerGraph;
-				isSupergraphInduced = numberOfEdgesForSupergraph.second;
+				isSupergraphInduced = numberOfEdgesForSupergraph.induced;
 			}
 
-			if (numberOfEdgesForSupergraph.second && 
-				verticesOfSmallerGraph.size() > maxNumberOfVerticesForInducedSupergraph && 
-				verticesOfSmallerGraph.size() > 0) {
+			if (numberOfEdgesForSupergraph.induced && 
+				numberOfEdgesForSupergraph.overlappingEdges > maxNumberOfEdgesForInducedSupergraph &&
+				numberOfEdgesForSupergraph.overlappingEdges > 0) {
 
 				reorderedGraphForInducedSupergraph = reorderedGraph;
 				//smallGraphCandidate;
 				verticesOfSmallerGraphForInducedSupergraph = verticesOfSmallerGraph;
-				maxNumberOfVerticesForInducedSupergraph = verticesOfSmallerGraph.size();
+				//maxNumberOfVerticesForInducedSupergraph = verticesOfSmallerGraph.size();
+
+				maxNumberOfEdgesForInducedSupergraph = numberOfEdgesForSupergraph.overlappingEdges;
 			}
 
 			/*if (graph1.size() == graph2.size()) {
