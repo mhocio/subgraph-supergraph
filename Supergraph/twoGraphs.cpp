@@ -1,5 +1,31 @@
 #include "twoGraphs.h"
 
+void printWithColor(std::string s, bool endWithNewLine = false, int color = 31) {
+	/*
+	*   Name            FG  BG
+		Black           30  40
+		Red             31  41
+		Green           32  42
+		Yellow          33  43
+		Blue            34  44
+		Magenta         35  45
+		Cyan            36  46
+		White           37  47
+		Bright Black    90  100
+		Bright Red      91  101
+		Bright Green    92  102
+		Bright Yellow   93  103
+		Bright Blue     94  104
+		Bright Magenta  95  105
+		Bright Cyan     96  106
+		Bright White    97  107
+	*/
+	std::cout << "\x1B[" << color << "m" << s << "\033[0m";
+	if (endWithNewLine) {
+		std::cout << "\n";
+	}
+}
+
 void printGraphComarison_t(graphComarison_t g, bool printReverse=false) {
 	// printReverse to true is used when the first and changed graph is the graph
 	// computed with approx algorithm, which means that we counted missing and redundant edges
@@ -130,7 +156,9 @@ void twoGraphs::printExecutionTime() {
 		std::cout << "Exact algorithm computed in " << exactSolutionTime << " seconds\n";
 }
 
-void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vector<std::vector<int>>, std::string >> graphs) {
+void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vector<std::vector<int>>, std::string >> graphs,
+	std::vector<std::pair<int, int> > colors = {}, int color = 31, std::vector<int> coloredLabels = {}) {
+	//31 is red
 	int maxSize = 0;
 	int sum = 0;
 	for (auto graph : graphs) {
@@ -143,7 +171,14 @@ void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vecto
 	// print labels
 	int i = 1;
 	for (auto graph : graphs) {
-		std::cout << "[" << graph.second << "]";
+		if (std::find(coloredLabels.begin(), coloredLabels.end(),
+			i - 1) != coloredLabels.end()) {
+			printWithColor("[" + graph.second + "]", false, color);
+		}
+		else {
+			std::cout << "[" << graph.second << "]";
+		}
+
 		if (i++ < graphs.size()) {
 			std::cout << "; ";
 		}
@@ -197,7 +232,16 @@ void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vecto
 		for (int j = 0; j < sum + graphs.size() - 1; j++) {
 			if (i < graphs[graphNo].first.size()) {
 				if (rowsGraphNumber[j] != -1) {
-					std::cout << graphs[rowsGraphNumber[j]].first[i][graphsColumn[j]] << " ";
+					if (std::find(colors.begin(), colors.end(),
+						std::make_pair(i, j)) != colors.end()) {
+						printWithColor(std::to_string(graphs[rowsGraphNumber[j]].first[i][graphsColumn[j]])
+						,false, color);
+						std::cout << " ";
+					}
+					else
+					{
+						std::cout << graphs[rowsGraphNumber[j]].first[i][graphsColumn[j]] << " ";
+					}
 				}
 				else {
 					std::cout << " ";  // break between graphs
@@ -214,32 +258,6 @@ void twoGraphs::printSeveralGraphsInOneLine(std::vector < std::pair < std::vecto
 				}
 			}
 		}
-		std::cout << "\n";
-	}
-}
-
-void printWithColor(std::string s, bool endWithNewLine=false, int color = 31) {
-	/*
-	*   Name            FG  BG
-		Black           30  40
-		Red             31  41
-		Green           32  42
-		Yellow          33  43
-		Blue            34  44
-		Magenta         35  45
-		Cyan            36  46
-		White           37  47
-		Bright Black    90  100
-		Bright Red      91  101
-		Bright Green    92  102
-		Bright Yellow   93  103
-		Bright Blue     94  104
-		Bright Magenta  95  105
-		Bright Cyan     96  106
-		Bright White    97  107
-	*/
-	std::cout << "\x1B[" <<color << "m" << s << "\033[0m\t\t";
-	if (endWithNewLine) {
 		std::cout << "\n";
 	}
 }
@@ -274,7 +292,15 @@ void twoGraphs::printSolutionNice() {
 			graphsToPrint.push_back({ exactMaximalSubgraphReordered , {"reordered subgraph to compare with approximate result"}});
 		}
 
-		printSeveralGraphsInOneLine(graphsToPrint);
+		std::vector<std::pair<int, int> > colors;
+		for (int i = 0; i < exactMaximalSubgraph.size(); i++) {
+			for (int j = 0; j < exactMaximalSubgraph.size(); j++) {
+				colors.push_back(std::make_pair(i, j));
+				colors.push_back(std::make_pair(i, j+1+ exactAlgorithm.reorderedGraphForSubgraph.size()));
+			}
+		}
+
+		printSeveralGraphsInOneLine(graphsToPrint, colors, 32, { 1 } );
 		printPermChanges(exactAlgorithm.permOfBiggerGraphForSubgraph);
 		std::cout << "\n\n";
 		
