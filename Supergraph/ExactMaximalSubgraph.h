@@ -14,7 +14,7 @@ public:
 	std::vector<std::pair<std::vector<int>, std::vector<int> > > getPermutationsOfSize(int size);
 	std::vector<std::vector<int>> generateReorderedGraph(std::pair<std::vector<int>, std::vector<int> >, std::vector<std::vector<int>>);
 	int compareOverlayGraphs(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG);
-	int compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG);
+	std::pair<int, bool> compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG);
 
 	std::vector<std::vector<int>> generateSuperGraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG);
 
@@ -29,6 +29,9 @@ public:
 	std::vector<std::vector<int>> reorderedGraphForSupergraph;
 	std::vector<std::vector<int>> smallGraphCandidateForSupergraph;
 	std::pair<std::vector<int>, std::vector<int> > permOfBiggerGraphForSupergraph;
+
+	bool isSupergraphInduced = false;
+	std::vector<std::vector<int>> minimalInducedSupergraph;
 
 	static int _count;
 };
