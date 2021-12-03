@@ -210,6 +210,33 @@ void case2() {
 }
 
 void case3() {
+    bool loop = true;
+    while (loop) {
+        system("CLS");  // clear terminal
+
+        GraphGenerator generator;
+        std::string N, d, algo;
+
+        std::cout << "Enter size of graphs, their density (from 0 to 100) and number from 1 to 3:\\
+            \n1)both algorithms\n2)only exact algorithms\n3)only approximate algorithms\nex: 7 50 1" << std::endl;
+
+        std::cin >> N >> d >> algo;
+
+        if (!is_number(N) || !is_number(d) || !is_number(algo)) {
+            std::cout << "Wrong input! (some parameter is not integer)\n";
+            twoGraphs solution({ {{}}, {{}} });
+            solution.readFromFfile = false;
+            loop = runSingleSolution(solution, algo);
+        }
+        else {
+            auto graphs = generator.generateIsomorphicGraphs(std::stoi(N), std::stoi(d));
+            twoGraphs solution = twoGraphs(graphs);
+            loop = runSingleSolution(solution, algo);
+        }
+    }
+}
+
+void case4() {
     std::cout << "Graphs which can be used:\n";
     std::cout << "Graphs used for testing (where i is from o to 9):\n";
     std::vector<int> sizes;
@@ -270,7 +297,8 @@ void program() {
         std::cout << "Choose one of the above options\n";
         std::cout << "1. Run program on the input file\n";
         std::cout << "2. Run program on randomly generated graphs with chosen parameters\n";
-        std::cout << "3. Print graphs from our db\n";
+        std::cout << "3. Run program on randomly generated isomorphic graphs with chosen parameters\n";
+        std::cout << "4. Print graphs from our db\n";
         std::cout << "0. Exit\n";
         std::string input;
         std::cin >> input;
@@ -289,6 +317,9 @@ void program() {
             break;
         case 3:
             case3();
+            break;
+        case 4:
+            case4();
             break;
         case 0:
             loop = false;
