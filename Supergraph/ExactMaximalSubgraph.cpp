@@ -1,7 +1,7 @@
 #include "ExactMaximalSubgraph.h"
 
 ExactSubgraph::ExactSubgraph() {
-	GraphReader reader;
+	/*GraphReader reader;
 	reader.readInput("input2.txt");
 	// making sure the graph with most number of vertices is assigned first
 	if (reader.graph1.size() > reader.graph2.size()) {
@@ -11,7 +11,7 @@ ExactSubgraph::ExactSubgraph() {
 	else {
 		graph2 = reader.graph1;
 		graph1 = reader.graph2;
-	}
+	}*/
 }
 
 ExactSubgraph::ExactSubgraph(std::vector<std::vector<int>> g1, std::vector<std::vector<int>> g2)
