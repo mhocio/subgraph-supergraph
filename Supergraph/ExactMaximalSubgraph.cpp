@@ -225,6 +225,13 @@ std::vector<std::vector<int>> genMinimalInducedSupergraph(std::vector<std::vecto
 		}
 	}
 
+	// fill so that columns are full
+	for (int i = 0; i < ret.size(); i++) {
+		while (ret[i].size() < ret.size()) {
+			ret[i].push_back(0);
+		}
+	}
+
 	return ret;
 }
 
@@ -317,7 +324,7 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 		catch (const std::exception&)
 		{
 			std::cout << "err: genMinimalInducedSupergraph\n";
-			minimalInducedSupergraph = { {} };
+			minimalInducedSupergraph.clear();
 		}
 
 		bool err = false;
@@ -330,13 +337,13 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 		}
 
 		if (err) {
-			for (int i = 0; i < minimalInducedSupergraph.size(); i++) {
+			/*for (int i = 0; i < minimalInducedSupergraph.size(); i++) {
 				for (int j = 0; j < minimalInducedSupergraph[i].size(); j++) {
 					std::cout << minimalInducedSupergraph[i][j] << " ";
 				}
 				std::cout << "\n";
-			}
-			minimalInducedSupergraph = { {} };
+			}*/
+			minimalInducedSupergraph.clear();
 		}
 	}
 
