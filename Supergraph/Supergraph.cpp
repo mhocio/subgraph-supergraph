@@ -145,7 +145,7 @@ bool runSingleSolution(twoGraphs solution, std::string algo) {
         //solution.printSeveralGraphsInOneLine({ {solution.graph2, "graph2"} , {solution.graph1, "graph1"}, {solution.graph2, "graph2"} });
     }
     else {
-        std::cout << "Could not read the file.\n";
+        std::cout << "Error with the input.\n";
     }
 
     std::cout << "Do you want to test another graph? Type yes or y if so. ";

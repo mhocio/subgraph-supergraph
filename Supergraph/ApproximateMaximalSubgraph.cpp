@@ -2,7 +2,7 @@
 #include "GraphReader.h"
 
 ApproximateMaximalSubgraph::ApproximateMaximalSubgraph() {
-	GraphReader reader;
+	/*GraphReader reader;
 	reader.readInput("input2.txt");
 	// making sure the graph with most number of vertices is assigned first
 	if (reader.graph1.size() > reader.graph2.size()) {
@@ -13,7 +13,7 @@ ApproximateMaximalSubgraph::ApproximateMaximalSubgraph() {
 		graph2 = reader.graph1;
 		graph1 = reader.graph2;
 	}
-	modularGraph = std::vector<std::vector<int>>(graph1.size() * graph2.size(), std::vector<int>(graph1.size() * graph2.size(), 0));
+	modularGraph = std::vector<std::vector<int>>(graph1.size() * graph2.size(), std::vector<int>(graph1.size() * graph2.size(), 0));*/
 }
 
 ApproximateMaximalSubgraph::ApproximateMaximalSubgraph(std::vector<std::vector<int>> g1, std::vector<std::vector<int>> g2)
