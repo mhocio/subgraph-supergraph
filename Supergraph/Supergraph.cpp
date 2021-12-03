@@ -14,6 +14,8 @@
 #include "twoGraphs.h"
 #include "GraphGenerator.h"
 
+using std::filesystem::directory_iterator;
+
 void generateAndWrite(int numberOfGraphs, int n1, int n2, int density1, int density2) {
     GraphGenerator generator;
     std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> graphs;
@@ -68,12 +70,6 @@ void gen() {
 }
 
 void simpleCaseFromFile() {
-    //std::cout << "Enter the name of the input file, e.g. name.txt" << std::endl;
-    //std::cin >> filename;
-    //filename = base_path + filename;
-    //twoGraphs solution = twoGraphs(filename);
-
-    //twoGraphs solution = twoGraphs("Examples/input5.txt");
     twoGraphs solution = twoGraphs("Examples/input3.txt");
     solution.computeApproximateSolution();
     solution.computeExactSolution();
@@ -156,10 +152,6 @@ bool runSingleSolution(twoGraphs solution, std::string algo) {
         loop = false;
     }
 
-    /*if (ans != "yes" && ans != "y") {
-        loop = false;
-    }*/
-
     return loop;
 }
 
@@ -172,7 +164,7 @@ void case1() {
         std::string filename;
         std::string algo;
         std::cout << "Enter the name of the input file and 1 or 2 or 3 after space for\\
-            \n1)both algorithms\n2)only exact algorithms\n3)only approximate algorithms\nex: name.txt 2" << std::endl;
+            \n1)both algorithms\n2)only exact algorithms\n3)only approximate algorithms\nExample: C4P2C3_bull.txt 2" << std::endl;
         std::cin >> filename >> algo;
         filename = base_path + filename;
         twoGraphs solution = twoGraphs(filename);
@@ -191,7 +183,7 @@ void case2() {
 
         std::cout << "Enter size of first graph. size of second graph,\ndensity of first graph (from 0 to 100),\\
  density of second graph(from 0 to 100) and number from 1 to 3:\\
-            \n1)both algorithms\n2)only exact algorithms\n3)only approximate algorithms\nex: 7 5 50 60 1" << std::endl;
+            \n1)both algorithms\n2)only exact algorithms\n3)only approximate algorithms\nExample: 7 5 50 60 1" << std::endl;
 
         std::cin >> N >> M >> d1 >> d2 >> algo;
 
@@ -210,56 +202,15 @@ void case2() {
 }
 
 void case3() {
-    std::cout << "Graphs which can be used:\n";
-    std::cout << "Graphs used for testing (where i is from o to 9):\n";
-    std::vector<int> sizes;
-    std::vector<int> densities = { 20, 50, 80 };
-    bool computeExact = true;
-    int EXACT_N_TRESHHOLD = 8;
+    std::cout << "Graphs which can be used (in the Examples folder):\n";
+    std::string path = "Examples/";
 
-    for (int i = 8; i < 10; i++) {
-        sizes.push_back(i);
-    }
-    for (int i = 10; i <= 190; i += 10) {
-        sizes.push_back(i);
-    }
-
-    for (int size : sizes) {
-        for (int i = 1; i < densities.size(); i++) {
-            int N = size;
-            int M = ceil(double(size) / 2);
-            int d1 = densities[i];
-            int d2 = densities[i - 1];
-
-            for (int w = 0; w < 4; w++) {
-                double resultApprox = 0.0;
-                double resultExact = 0.0;
-                if (w == 0) {
-                    M = ceil(double(size) / 3);
-                }
-                else if (w == 1) {
-                    M = ceil(double(size) / 2);
-                }
-                else if (w == 2) {
-                    M = ceil(double(size) / 3 * 2);
-                }
-                else if (w == 3) {
-                    M = N;
-                }
-                std::cout << "Tests/test-" + std::to_string(N) + "-" + std::to_string(M) + "-" +
-                    std::to_string(d1) + "-" + std::to_string(d2) + "_" +
-                    "i" + ".txt\n";
-            }
-        }
-    }
-
-    std::cout << "Predefined inputs:\n";
-    for (int i = 1; i <= 11; i++) {
-        std::cout << "input" << std::to_string(i) << ".txt\n";
+    for (const auto& file : directory_iterator(path)) {
+        if (!file.is_directory())
+            std::cout << file.path().filename() << "\n";
     }
 
     std::system("pause");
-    //N, M, d1, d2
 }
 
 void program() {
@@ -446,29 +397,9 @@ void perfTests(bool writeToFile=false, bool computeAlgorithms=true) {
 int main(int argc, char* argv[])
 {
     program();
-    //gen();
+    //gen();  // generate files
     //perfTests();  // run tests
     //perfTests(true, false);  // generate test graph files to the folder
+
+    return 0;
 }
-
-/*
-void main(void)
-{
-    std::string base_path = "./../Examples/";
-    std::string filename;
-    std::cout << "Enter the name of the input file, e.g. name.txt" << std::endl;
-    std::cin >> filename;
-    filename = base_path + filename;
-    twoGraphs solution = twoGraphs(filename);
-    solution.computeApproximateSolution();
-    solution.computeExactSolution();
-    solution.printSolution();
-
-    std::system("pause");
-
-}*/
-
-/*
-char buff[256];
-_getcwd(buff, 256);
-std::string current_working_dir(buff);  // not used yet*/
