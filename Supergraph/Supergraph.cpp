@@ -3,9 +3,8 @@
 
 #include <iostream>
 #include <filesystem>
-#include <windows.h>
+#include <cmath>
 #include <string>
-#include <direct.h>
 #include <chrono>
 #include <stdlib.h>
 #include "ApproximateMaximalSubgraph.h"
@@ -21,12 +20,10 @@ void generateAndWrite(int numberOfGraphs, int n1, int n2, int density1, int dens
     for (int i = 0; i < numberOfGraphs; i++) {
         graphs = generator.generateGraphs(n1, n2, density1, density2);
         generator.writeGraphsToFile(graphs,
-            "gen_" +
-            std::to_string(n1) + "-" +
-            std::to_string(n2) + "-" +
-            std::to_string(density1) + "-" +
-            std::to_string(density2) + "__" +
-            std::to_string(i) + ".txt");
+            "1n" + std::to_string(n1) + "_" +
+            "2n" + std::to_string(n2) + "_" +
+            "1den" + std::to_string(density1) + "_" +
+            "2den" + std::to_string(density2) + ".txt");
     }
 }
 
@@ -37,10 +34,8 @@ void generateIsomorphicAndWrite(int numberOfGraphs, int n, int density) {
     for (int i = 0; i < numberOfGraphs; i++) {
         graphs = generator.generateIsomorphicGraphs(n, density);
         generator.writeGraphsToFile(graphs,
-            "gen_iso" +
-            std::to_string(n) + "-" +
-            std::to_string(density) + "__" +
-            std::to_string(i) + ".txt");
+            "n" + std::to_string(n) + "_" +
+            "den" + std::to_string(density) + "_iso" + ".txt");
     }
 }
 
