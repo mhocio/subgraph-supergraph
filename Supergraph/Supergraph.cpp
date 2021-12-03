@@ -30,10 +30,25 @@ void generateAndWrite(int numberOfGraphs, int n1, int n2, int density1, int dens
     }
 }
 
+void generateIsomorphicAndWrite(int numberOfGraphs, int n, int density) {
+    GraphGenerator generator;
+    std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> graphs;
+
+    for (int i = 0; i < numberOfGraphs; i++) {
+        graphs = generator.generateIsomorphicGraphs(n, density);
+        generator.writeGraphsToFile(graphs,
+            "gen_iso" +
+            std::to_string(n) + "-" +
+            std::to_string(density) + "__" +
+            std::to_string(i) + ".txt");
+    }
+}
+
 using namespace std::chrono;
 
 void gen() {
-    generateAndWrite(1, 10, 6, 42, 60);
+    //generateIsomorphicAndWrite(5, 6, 60);
+    //generateAndWrite(1, 10, 6, 42, 60);
     //generateAndWrite(100, 40, 20, 40, 40);
     //generateAndWrite(100, 60, 30, 40, 40);
     //generateAndWrite(100, 80, 40, 40, 40);
