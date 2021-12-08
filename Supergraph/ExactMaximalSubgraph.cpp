@@ -155,14 +155,11 @@ graphComarisonInducedSupergraph_t ExactSubgraph::compareOverlayGraphsForSupergra
 					return -1; // supergraph candidate refused since smaller graph is not contained in the bigger one
 				}*/
 
-				if (smallG[i][j] == 0) {
-					induced = false;
-					//std::cout << "induced = false;\n";
-				}
+				induced = false;
+				//std::cout << "induced = false;\n";
 
 				count++; // add that edge
-			}
-			else {
+			} else {
 				overlappingEdges++;
 			}
 		}
@@ -224,16 +221,6 @@ std::vector<std::vector<int>> genMinimalInducedSupergraph(std::vector<std::vecto
 		ret.push_back(std::vector<int>(N + missingEdges, 0) );
 	}
 
-	for (int i = 0; i < M; i++) {
-		if (std::find(ver.begin(), ver.end(), i) == ver.end()) {
-			// did not find that edge in bigger graph - add it (i)
-			for (int j = 0; j < M; j++) {
-				ret[j].push_back(G2[j][i]);
-				ret[ret[j].size() - 1][j] = G2[j][i];
-			}
-		}
-	}
-
 	// fill so that columns are full
 	for (int i = 0; i < ret.size(); i++) {
 		while (ret[i].size() < ret.size()) {
@@ -241,8 +228,35 @@ std::vector<std::vector<int>> genMinimalInducedSupergraph(std::vector<std::vecto
 		}
 	}
 
+	int k = N;
+	std::vector<int> remapped;
+	for (int i = 0; i < M; i++) {
+		if (std::find(ver.begin(), ver.end(), i) == ver.end()) {
+			remapped.push_back(k++);
+		}
+		else {
+			remapped.push_back(i);
+		}
+	}
+
+	int newV = N;
+
+	for (int i = 0; i < M; i++) {
+		if (std::find(ver.begin(), ver.end(), i) == ver.end()) {
+			// did not find that vertex in bigger graph - add it (i)
+			for (int j = 0; j < M; j++) {
+				int y = remapped[j];
+
+				ret[y][newV] = G2[j][i];
+				ret[newV][y] = G2[j][i];
+			}
+			newV++;
+		}
+	}
+
 	return ret;
 }
+
 
 // main function of the whole exact algorithm
 void ExactSubgraph::generateMaximalCommonSubgraph() {
@@ -300,6 +314,7 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 				reorderedGraphForSupergraph = reorderedGraph;
 				smallGraphCandidateForSupergraph = smallGraphCandidate;
 				permOfBiggerGraphForSupergraph = permOfBiggerGraph;
+
 				isSupergraphInduced = numberOfEdgesForSupergraph.induced;
 			}
 
@@ -331,7 +346,10 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 	if (!isSupergraphInduced) {
 		try
 		{
+			printGraph(reorderedGraphForInducedSupergraph);
+			printGraph(graph2);
 			minimalInducedSupergraph = genMinimalInducedSupergraph(reorderedGraphForInducedSupergraph, graph2, verticesOfSmallerGraphForInducedSupergraph);
+			printGraph(minimalInducedSupergraph);
 		}
 		catch (const std::exception&)
 		{
