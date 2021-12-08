@@ -303,9 +303,26 @@ void twoGraphs::printSolutionNice() {
 		printSeveralGraphsInOneLine(graphsToPrint, colors, 32, { 1 } );
 		printPermChanges(exactAlgorithm.permOfBiggerGraphForSubgraph);
 		std::cout << "\n\n";
+
+		std::vector < std::pair < std::vector<std::vector<int>>, std::string >> supergraphsToPrint =
+		{ {exactAlgorithm.reorderedGraphForSupergraph, "Reordered bigger graph for finding the minimal supergraph"},
+			{exactAlgorithm.smallGraphCandidateForSupergraph, "smallGraphCandidateForSupergraph"} ,
+			{exactMinimalSupergraph, "exactMinimalSupergraph"} };
+
+		if (!exactAlgorithm.isSupergraphInduced && exactAlgorithm.minimalInducedSupergraph.size() > 0) {
+			supergraphsToPrint.push_back({ exactAlgorithm.minimalInducedSupergraph , "minimal induced supergraph" });
+		}
 		
-		printSeveralGraphsInOneLine({ {exactAlgorithm.reorderedGraphForSupergraph, "Reordered bigger graph for finding the minimal supergraph"}, {exactAlgorithm.smallGraphCandidateForSupergraph, "smallGraphCandidateForSupergraph"} ,{exactMinimalSupergraph, "exactMinimalSupergraph"}});
+		printSeveralGraphsInOneLine(supergraphsToPrint);
 		printPermChanges(exactAlgorithm.permOfBiggerGraphForSupergraph, "supergraph");
+		
+		if (exactAlgorithm.isSupergraphInduced) {
+			std::cout << "\n\nSupergraph is also an induced supergraph";
+		}
+		else {
+			std::cout << "\n\nSupergraph is NOT an induced supergraph";
+		}
+
 		std::cout << "\n\n";
 	}
 	if (approximateComputed) {
@@ -331,6 +348,7 @@ void twoGraphs::printSolutionNice() {
 			std::cout << "Common subgraphs of two algorithms are NOT same... ";
 			printGraphComarison_t(compareSubgraphs);
 		}
+		std::cout << "\n";
 	}
 }
 
@@ -386,8 +404,8 @@ struct graphComarison_t twoGraphs::compareGraphs(std::vector<std::vector<int>> G
 	auto permutationsOfExactGraph = exactAlgorithm.getPermutationsOfSize(G1.size());
 
 	bool finalCorrectMappingFound = false;
-	int minMissingEdges = std::numeric_limits<int>::max();
-	int minRedundantEdges = std::numeric_limits<int>::max();
+	int minMissingEdges = 1000000;
+	int minRedundantEdges = 1000000;
 	std::vector<std::vector<int>> bestGraph;
 	graphComarison_t ret;
 

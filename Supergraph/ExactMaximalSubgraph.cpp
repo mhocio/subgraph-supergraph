@@ -139,8 +139,10 @@ int ExactSubgraph::compareOverlayGraphs(std::vector<std::vector<int>> bigG, std:
 
 // return -1 if small graph do not overlap on the bigger one
 // return number of edges of the smaller graph otherwise
-int ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
+graphComarisonInducedSupergraph_t ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
 	int count = 0;
+	int overlappingEdges = 0;
+	bool induced = true;
 	for (int i = 0; i < smallG.size(); i++) {
 		for (int j = 0; j < smallG.size(); j++) {
 			if (smallG[i][j] != bigG[i][j]) {
@@ -152,12 +154,35 @@ int ExactSubgraph::compareOverlayGraphsForSupergraph(std::vector<std::vector<int
 				else {
 					return -1; // supergraph candidate refused since smaller graph is not contained in the bigger one
 				}*/
+
+				induced = false;
+				//std::cout << "induced = false;\n";
+
 				count++; // add that edge
+			} else {
+				overlappingEdges++;
 			}
 		}
 	}
 
-	return count;
+	if (bigG.size() == smallG.size()) {
+		for (int i = 0; i < smallG.size(); i++) {
+			for (int j = 0; j < smallG.size(); j++) {
+				if (smallG[i][j] != bigG[i][j]) {
+					if (bigG[i][j] == 0) {
+						induced = false;
+					}
+				}
+			}
+		}
+	}
+
+	graphComarisonInducedSupergraph_t ret;
+	ret.count = count;
+	ret.induced = induced;
+	ret.overlappingEdges = overlappingEdges;
+
+	return ret;
 }
 
 std::vector<std::vector<int>> ExactSubgraph::generateSuperGraph(std::vector<std::vector<int>> bigG, std::vector<std::vector<int>> smallG) {
@@ -184,6 +209,55 @@ void printGraph(std::vector<std::vector<int>> G) {
 	}
 }
 
+std::vector<std::vector<int>> genMinimalInducedSupergraph(std::vector<std::vector<int>> G1, 
+	std::vector<std::vector<int>> G2, std::vector<int> ver) {
+
+	std::vector<std::vector<int>> ret = G1;
+	int N = G1.size(); // bigger ("supergraph candidate")
+	int M = G2.size(); // smaller
+	int missingEdges = G2.size() - ver.size();
+
+	for (int i = 0; i < missingEdges; i++) {
+		ret.push_back(std::vector<int>(N + missingEdges, 0) );
+	}
+
+	// fill so that columns are full
+	for (int i = 0; i < ret.size(); i++) {
+		while (ret[i].size() < ret.size()) {
+			ret[i].push_back(0);
+		}
+	}
+
+	int k = N;
+	std::vector<int> remapped;
+	for (int i = 0; i < M; i++) {
+		if (std::find(ver.begin(), ver.end(), i) == ver.end()) {
+			remapped.push_back(k++);
+		}
+		else {
+			remapped.push_back(i);
+		}
+	}
+
+	int newV = N;
+
+	for (int i = 0; i < M; i++) {
+		if (std::find(ver.begin(), ver.end(), i) == ver.end()) {
+			// did not find that vertex in bigger graph - add it (i)
+			for (int j = 0; j < M; j++) {
+				int y = remapped[j];
+
+				ret[y][newV] = G2[j][i];
+				ret[newV][y] = G2[j][i];
+			}
+			newV++;
+		}
+	}
+
+	return ret;
+}
+
+
 // main function of the whole exact algorithm
 void ExactSubgraph::generateMaximalCommonSubgraph() {
 	// assume 1st graph is bigger or same size
@@ -203,8 +277,14 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 	//printGraph(graph1);
 	//printGraph(graph2);
 
+	std::vector<int> verticesOfSmallerGraphForInducedSupergraph;
+	std::vector<std::vector<int>> reorderedGraphForInducedSupergraph;
+
 	int maxNumberOfEdges = -1;  // for maximal subgraph
-	int minNumberOfEdgesForSupergraph = std::numeric_limits<int>::max();  // for minimal supergraph
+	int minNumberOfEdgesForSupergraph = 1000000;  // for minimal supergraph
+
+	int maxNumberOfEdgesForInducedSupergraph = 0;
+	int maxNumberOfVerticesForInducedSupergraph = 0;
 
 	std::vector<std::vector<int>> setOfAllVerticesCandidates = getPerms(graph2.size());
 	auto permutationsOfBiggerGraph = getPermutationsOfSize(graph1.size());
@@ -225,26 +305,75 @@ void ExactSubgraph::generateMaximalCommonSubgraph() {
 			}
 
 			// compute minimal Supergraph
-			if (smallGraphCandidate.size() == graph2.size()) {
-				int numberOfEdgesForSupergraph = compareOverlayGraphsForSupergraph(reorderedGraph, smallGraphCandidate);
+			auto numberOfEdgesForSupergraph = compareOverlayGraphsForSupergraph(reorderedGraph, smallGraphCandidate);
+			int num = numberOfEdgesForSupergraph.count;
 
-				if (numberOfEdgesForSupergraph >= 0 && numberOfEdgesForSupergraph < minNumberOfEdgesForSupergraph) {
-					minNumberOfEdgesForSupergraph = numberOfEdgesForSupergraph;
-					minimalSupergraph = generateSuperGraph(reorderedGraph, smallGraphCandidate);
-					reorderedGraphForSupergraph = reorderedGraph;
-					smallGraphCandidateForSupergraph = smallGraphCandidate;
-					permOfBiggerGraphForSupergraph = permOfBiggerGraph;
-				}
+			if (smallGraphCandidate.size() == graph2.size() && num >= 0 && num < minNumberOfEdgesForSupergraph) {
+				minNumberOfEdgesForSupergraph = num;
+				minimalSupergraph = generateSuperGraph(reorderedGraph, smallGraphCandidate);
+				reorderedGraphForSupergraph = reorderedGraph;
+				smallGraphCandidateForSupergraph = smallGraphCandidate;
+				permOfBiggerGraphForSupergraph = permOfBiggerGraph;
 
-				/*if (graph1.size() == graph2.size()) {
-					int numberOfEdgesForSupergraphReverse = compareOverlayGraphsForSupergraph(smallGraphCandidate, reorderedGraph);
-
-					if (numberOfEdgesForSupergraphReverse >= 0 && numberOfEdgesForSupergraphReverse < minNumberOfEdgesForSupergraph) {
-						minNumberOfEdgesForSupergraph = numberOfEdgesForSupergraphReverse;
-						minimalSupergraph = generateSuperGraph(smallGraphCandidate, reorderedGraph);
-					}
-				}*/
+				isSupergraphInduced = numberOfEdgesForSupergraph.induced;
 			}
+
+			if (numberOfEdgesForSupergraph.induced && 
+				numberOfEdgesForSupergraph.overlappingEdges > maxNumberOfEdgesForInducedSupergraph &&
+				numberOfEdgesForSupergraph.overlappingEdges > 0) {
+
+				reorderedGraphForInducedSupergraph = reorderedGraph;
+				//smallGraphCandidate;
+				verticesOfSmallerGraphForInducedSupergraph = verticesOfSmallerGraph;
+				//maxNumberOfVerticesForInducedSupergraph = verticesOfSmallerGraph.size();
+
+				maxNumberOfEdgesForInducedSupergraph = numberOfEdgesForSupergraph.overlappingEdges;
+			}
+
+			/*if (graph1.size() == graph2.size()) {
+				int numberOfEdgesForSupergraphReverse = compareOverlayGraphsForSupergraph(smallGraphCandidate, reorderedGraph);
+
+				if (numberOfEdgesForSupergraphReverse >= 0 && numberOfEdgesForSupergraphReverse < minNumberOfEdgesForSupergraph) {
+					minNumberOfEdgesForSupergraph = numberOfEdgesForSupergraphReverse;
+					minimalSupergraph = generateSuperGraph(smallGraphCandidate, reorderedGraph);
+				}
+			}*/
+
+
+		}
+	}
+
+	if (!isSupergraphInduced) {
+		try
+		{
+			printGraph(reorderedGraphForInducedSupergraph);
+			printGraph(graph2);
+			minimalInducedSupergraph = genMinimalInducedSupergraph(reorderedGraphForInducedSupergraph, graph2, verticesOfSmallerGraphForInducedSupergraph);
+			printGraph(minimalInducedSupergraph);
+		}
+		catch (const std::exception&)
+		{
+			std::cout << "err: genMinimalInducedSupergraph\n";
+			minimalInducedSupergraph.clear();
+		}
+
+		bool err = false;
+
+		for (int i = 0; i < minimalInducedSupergraph.size(); i++) {
+			if (minimalInducedSupergraph[i].size() != minimalInducedSupergraph.size()) {
+				err = true;
+				// some error
+			}
+		}
+
+		if (err) {
+			/*for (int i = 0; i < minimalInducedSupergraph.size(); i++) {
+				for (int j = 0; j < minimalInducedSupergraph[i].size(); j++) {
+					std::cout << minimalInducedSupergraph[i][j] << " ";
+				}
+				std::cout << "\n";
+			}*/
+			minimalInducedSupergraph.clear();
 		}
 	}
 
