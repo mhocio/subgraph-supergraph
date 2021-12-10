@@ -210,7 +210,7 @@ void case3() {
         std::string N, d, algo;
 
         std::cout << "Enter size of graphs, their density (from 0 to 100) and number from 1 to 3:\\
-            \n1)both algorithms\n2)only exact algorithms\n3)only approximate algorithms\nex: 7 50 1" << std::endl;
+            \n1)both algorithms\n2)only exact algorithms\n3)only approximate algorithms\nExample: 7 50 1" << std::endl;
 
         std::cin >> N >> d >> algo;
 
@@ -249,7 +249,7 @@ void program() {
         std::cout << "1. Run program on the input file\n";
         std::cout << "2. Run program on randomly generated graphs with chosen parameters\n";
         std::cout << "3. Run program on randomly generated isomorphic graphs with chosen parameters\n";
-        std::cout << "4. Print graphs from our db\n";
+        std::cout << "4. Print graphs from our Example folder\n";
         std::cout << "0. Exit\n";
         std::string input;
         std::cin >> input;
