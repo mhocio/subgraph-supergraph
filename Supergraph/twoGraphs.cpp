@@ -286,7 +286,7 @@ void twoGraphs::printSolutionNice() {
 
 		std::vector < std::pair < std::vector<std::vector<int>>, std::string >> graphsToPrint =
 		{ {exactAlgorithm.reorderedGraphForSubgraph, "Reordered bigger (first) graph for finding the maximal common induced subgraph"} ,
-			{exactMaximalSubgraph, "exactMaximalSubgraph"} };
+			{exactMaximalSubgraph, "Maximal Subgraph"} };
 
 		if (exactMaximalSubgraphReordered_b) {
 			graphsToPrint.push_back({ exactMaximalSubgraphReordered , {"reordered subgraph to compare with approximate result"}});
@@ -304,14 +304,14 @@ void twoGraphs::printSolutionNice() {
 		printPermChanges(exactAlgorithm.permOfBiggerGraphForSubgraph);
 		std::cout << "\n\n";
 		
-		printSeveralGraphsInOneLine({ {exactAlgorithm.reorderedGraphForSupergraph, "Reordered bigger graph for finding the minimal supergraph"}, {exactAlgorithm.smallGraphCandidateForSupergraph, "smallGraphCandidateForSupergraph"} ,{exactMinimalSupergraph, "exactMinimalSupergraph"}});
+		printSeveralGraphsInOneLine({ {exactAlgorithm.reorderedGraphForSupergraph, "Reordered bigger graph for finding the minimal supergraph"}, {exactAlgorithm.smallGraphCandidateForSupergraph, "smallGraphCandidateForSupergraph"} ,{exactMinimalSupergraph, "Minimal Supergraph"}});
 		printPermChanges(exactAlgorithm.permOfBiggerGraphForSupergraph, "supergraph");
 		std::cout << "\n\n";
 	}
 	if (approximateComputed) {
 		std::cout << "\n";
 		printWithColor("=== APPROXIMATE ALGORITHM computed in " + std::to_string(approximateSolutionTime) + " seconds ===", true);
-		printSeveralGraphsInOneLine({ {approximateMinimalSupergraph, "approximateMinimalSupergraph"}, {approximateMaximalSubgraph, "approximateMaximalSubgraph"} });
+		printSeveralGraphsInOneLine({ {approximateMinimalSupergraph, "Minimal Supergraph"}, {approximateMaximalSubgraph, "Maximal Subgraph"} });
 	}
 
 	if (exactComputed && approximateComputed && editedSolutionAfterTwoAlgorithms) {
